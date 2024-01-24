@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "56204976683",
+    "project_id": "charity-management-app-45aea",
+    "storage_bucket": "charity-management-app-45aea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56204976683:android:61b9646db9c54f6fba406e",
+        "android_client_info": {
+          "package_name": "com.example.charity_management_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClZnN0g7-0QKrUXgthRuJqFow4XAuq5Yw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,149 @@
+import 'package:charity_management_admin/features/volunteer/data_model.dart';
+import 'package:charity_management_admin/features/volunteer/widgets/my_rich_text.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+class ApplicationDetailPage extends ConsumerStatefulWidget {
+  final VolunteerApplication application;
+
+  ApplicationDetailPage({super.key, required this.application});
+
+  @override
+  ConsumerState<ApplicationDetailPage> createState() =>
+      _ApplicationDetailPageState();
+}
+
+class _ApplicationDetailPageState extends ConsumerState<ApplicationDetailPage> {
+  @override
+  Widget build(BuildContext context) {
+    final applicationData = widget.application;
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.inversePrimary,
+        ),
+        title: Text(
+          'APPLICATION DETAILS',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.inversePrimary,
+            letterSpacing: 4,
+          ),
+        ),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        child: Card(
+          elevation: 4.0,
+          margin: const EdgeInsets.all(16.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(12.0)),
+                child: Image.network(
+                  applicationData.post.imageUrl,
+                  height: 200.0,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20.h),
+                    Text(
+                      'Applicants Details: ',
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 5.h),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Name',
+                      value: applicationData.volunteer.volunteerName,
+                    ),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                        label: 'Applied Date',
+                        value: applicationData.createdAt),
+                    SizedBox(height: 8.h),
+                    LabelValueWidget(
+                      label: 'email',
+                      value: applicationData.email,
+                    ),
+                    SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Address',
+                      value: applicationData.address,
+                    ),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Contact No. :',
+                      value: applicationData.contactNum,
+                    ),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Experience',
+                      value: applicationData.experience,
+                    ),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Qualification',
+                      value: applicationData.qualification,
+                    ),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Skills',
+                      value: applicationData.skills,
+                    ),
+                    LabelValueWidget(
+                        label: 'Interest',
+                        value: applicationData.interests.join(', ')),
+                    const SizedBox(height: 8.0),
+                    SizedBox(height: 20.h),
+                    Row(
+                      children: [
+                        Text(
+                          'Post Details: ',
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).colorScheme.secondary,
+                            onPrimary: Theme.of(context).colorScheme.primary,
+                          ),
+                          child: Text(
+                            'View Post',
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
