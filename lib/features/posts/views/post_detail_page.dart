@@ -1,11 +1,13 @@
-import 'package:charity_management_admin/features/posts/pages/post_data/post_data_model.dart';
-import 'package:charity_management_admin/features/posts/services/edit_delete_logic.dart';
+import 'package:charity_management_admin/features/AdminPost/domain/data_model.dart';
+import 'package:charity_management_admin/features/posts/domain/data_model.dart';
+import 'package:charity_management_admin/features/posts/data/edit_delete_logic.dart';
 import 'package:charity_management_admin/features/posts/widgets/edit_delete_button.dart';
+import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PostDetailsPage extends StatefulWidget {
-  final PostData postModel;
+  final PostDataModel postModel;
 
   PostDetailsPage({
     required this.postModel,
@@ -109,7 +111,21 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                             ),
                           ),
                           TextSpan(
-                            text: widget.postModel.postDate,
+                            text:
+                                widget.postModel.postCreatedAt
+                                        .toDate()
+                                        .day
+                                        .toString() +
+                                    '/' +
+                                    widget.postModel.postCreatedAt
+                                        .toDate()
+                                        .month
+                                        .toString() +
+                                    '/' +
+                                    widget.postModel.postCreatedAt
+                                        .toDate()
+                                        .year
+                                        .toString(),
                             style: TextStyle(
                               color:
                                   Theme.of(context).colorScheme.inversePrimary,
@@ -184,7 +200,15 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
         padding: EdgeInsets.all(16.0),
         child: EditDeleteButtons(
           onEditPressed: () async {
-            
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => EditPostPage(
+
+            //       postId: widget.postModel.postId,
+            //     ),
+            //   ),
+            // );
           },
           onDeletePressed: () {
             EditDeleteLogic.deletePost(context, widget.postModel.postId);

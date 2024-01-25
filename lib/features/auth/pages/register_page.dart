@@ -1,4 +1,3 @@
-
 import 'package:charity_management_admin/common/widgets/my_button.dart';
 import 'package:charity_management_admin/common/widgets/my_textfield.dart';
 import 'package:charity_management_admin/features/auth/pages/login_page.dart';
@@ -8,7 +7,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({
@@ -56,7 +54,6 @@ class _RegisterPageState extends State<RegisterPage> {
           email: emailController.text,
           password: passwordController.text,
         );
-       
 
         // create the user document and add to firestore
         createUserDocument(userCredential);
@@ -168,8 +165,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: confirmPwController,
                 ),
                 SizedBox(height: 10.h),
-
-                SizedBox(height: 25.h),
 
                 // register button
                 MyButton(

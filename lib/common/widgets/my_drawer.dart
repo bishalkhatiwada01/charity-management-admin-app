@@ -1,4 +1,5 @@
-import 'package:charity_management_admin/features/volunteer/pages/application_page.dart';
+import 'package:charity_management_admin/features/volunteer/presentation/pages/application_list.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,7 +82,7 @@ class MyDrawer extends StatelessWidget {
 
                 // navigate to home page
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ApplicationsPage(),
+                  builder: (context) => AllApplicationsPage(),
                 ));
               },
             ),

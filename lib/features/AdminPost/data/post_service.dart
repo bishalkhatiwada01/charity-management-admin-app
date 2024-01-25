@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:charity_management_admin/features/volunteer/data_model.dart';
+import 'package:charity_management_admin/features/AdminPost/domain/data_model.dart';
+import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -32,12 +33,12 @@ class PostDataSource {
     }
   }
 
-  Future<List<Post>> getAllPost() async {
+  Future<List<PostDataModel>> getAllPost() async {
     try {
       final querySnapshot = await postDb.get();
 
       return querySnapshot.docs
-          .map((doc) => Post.fromJson({
+          .map((doc) => PostDataModel.fromJson({
                 ...doc.data(),
                 'postId': doc.id,
               }))

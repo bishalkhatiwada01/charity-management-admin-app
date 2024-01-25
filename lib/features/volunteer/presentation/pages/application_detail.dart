@@ -1,5 +1,7 @@
-import 'package:charity_management_admin/features/volunteer/data_model.dart';
-import 'package:charity_management_admin/features/volunteer/widgets/my_rich_text.dart';
+import 'package:charity_management_admin/features/volunteer/data/application_service.dart';
+import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
+import 'package:charity_management_admin/features/volunteer/presentation/widgets/accept_reject_button.dart';
+import 'package:charity_management_admin/features/volunteer/presentation/widgets/my_rich_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,11 +10,12 @@ class ApplicationDetailPage extends ConsumerStatefulWidget {
   final VolunteerApplication application;
 
   ApplicationDetailPage({super.key, required this.application});
-
   @override
   ConsumerState<ApplicationDetailPage> createState() =>
       _ApplicationDetailPageState();
 }
+
+ApplicationService _applicationService = ApplicationService();
 
 class _ApplicationDetailPageState extends ConsumerState<ApplicationDetailPage> {
   @override
@@ -46,7 +49,7 @@ class _ApplicationDetailPageState extends ConsumerState<ApplicationDetailPage> {
                 borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(12.0)),
                 child: Image.network(
-                  applicationData.post.imageUrl,
+                  applicationData.post.postImageUrl,
                   height: 200.0,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -70,45 +73,45 @@ class _ApplicationDetailPageState extends ConsumerState<ApplicationDetailPage> {
                     const SizedBox(height: 8.0),
                     LabelValueWidget(
                       label: 'Name',
-                      value: applicationData.volunteer.volunteerName,
+                      value: applicationData.volunteerName,
                     ),
                     const SizedBox(height: 8.0),
                     LabelValueWidget(
-                        label: 'Applied Date',
-                        value: applicationData.createdAt),
+                      label: 'Applied Date',
+                      value: applicationData.volunteerCreatedAt,
+                    ),
                     SizedBox(height: 8.h),
                     LabelValueWidget(
                       label: 'email',
-                      value: applicationData.email,
+                      value: applicationData.volunteerEmail,
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     LabelValueWidget(
                       label: 'Address',
-                      value: applicationData.address,
+                      value: applicationData.volunteerAddress,
                     ),
                     const SizedBox(height: 8.0),
                     LabelValueWidget(
                       label: 'Contact No. :',
-                      value: applicationData.contactNum,
+                      value: applicationData.volunteerContactNum,
                     ),
                     const SizedBox(height: 8.0),
                     LabelValueWidget(
                       label: 'Experience',
-                      value: applicationData.experience,
+                      value: applicationData.volunteerExperience,
                     ),
                     const SizedBox(height: 8.0),
                     LabelValueWidget(
                       label: 'Qualification',
-                      value: applicationData.qualification,
+                      value: applicationData.volunteerQualification!,
                     ),
                     const SizedBox(height: 8.0),
                     LabelValueWidget(
-                      label: 'Skills',
-                      value: applicationData.skills,
-                    ),
+                        label: 'Skills',
+                        value: applicationData.volunteerSkills!.join(', ')),
                     LabelValueWidget(
                         label: 'Interest',
-                        value: applicationData.interests.join(', ')),
+                        value: applicationData.volunteerInterests!.join(', ')),
                     const SizedBox(height: 8.0),
                     SizedBox(height: 20.h),
                     Row(
@@ -124,8 +127,10 @@ class _ApplicationDetailPageState extends ConsumerState<ApplicationDetailPage> {
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).colorScheme.secondary,
-                            onPrimary: Theme.of(context).colorScheme.primary,
+                            foregroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.secondary,
                           ),
                           child: Text(
                             'View Post',
@@ -144,6 +149,26 @@ class _ApplicationDetailPageState extends ConsumerState<ApplicationDetailPage> {
           ),
         ),
       ),
+      floatingActionButton: const SizedBox.shrink(),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: AcceptRejectButtons(
+          onAcceptPressed: () async {
+            final response = await _applicationService.acceptApplication(
+                applicationId: applicationData.volunteerApplicationId);
+            showError(context, response);
+          },
+          onRejectPressed: () async {
+            final response = await _applicationService.rejectApplication(
+                applicationId: applicationData.volunteerApplicationId);
+            showError(context, response);
+          },
+        ),
+      ),
     );
   }
+}
+
+void showError(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
 }

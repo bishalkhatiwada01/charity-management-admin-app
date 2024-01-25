@@ -1,15 +1,16 @@
+import 'dart:async';
+import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'data_model.dart';
 
 final volunteerApplicationProvider = FutureProvider<List<VolunteerApplication>>(
-    (ref) => DataService().getApplication());
+  (ref) => DataService().getApplication(),
+);
 
-class DataService {
+final class DataService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<List<VolunteerApplication>> getApplication() async {
-    print('yeta pugyo');
     try {
       final listData = await _db.collection('volunteer_applications').get();
 
@@ -20,12 +21,13 @@ class DataService {
         return VolunteerApplication.fromJson({
           ...json,
           'volunteer': volunteer,
-          'post': post,
+          'posts': post,
+          'volunteerApplicationId': e.id,
         });
       }));
       return applicationList;
-    } on FirebaseException catch (e) {
-      throw e;
+    } on FirebaseException {
+      rethrow;
     }
   }
 
@@ -33,12 +35,12 @@ class DataService {
     try {
       final DocumentSnapshot<Map<String, dynamic>> volunteer =
           await _db.collection('users').doc(volunteerId).get();
+      final userV = Volunteer.fromJson(
+          {...volunteer.data()!, 'volunteerId': volunteerId});
 
-      final userV = Volunteer.fromJson(volunteer.data()!);
-      print(userV.runtimeType);
       return userV;
-    } on FirebaseException catch (e) {
-      throw e;
+    } on FirebaseException {
+      rethrow;
     }
   }
 
@@ -47,10 +49,10 @@ class DataService {
       final DocumentSnapshot<Map<String, dynamic>> post =
           await _db.collection('posts').doc(postId).get();
 
-      final postData = Post.fromJson(post.data()!);
+      final postData = Post.fromJson({...post.data()!, 'postId': postId});
       return postData;
-    } on FirebaseException catch (e) {
-      throw e;
+    } on FirebaseException {
+      rethrow;
     }
   }
 }
