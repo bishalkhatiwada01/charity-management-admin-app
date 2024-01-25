@@ -1,3 +1,4 @@
+import 'package:charity_management_admin/features/AdminPost/domain/data_model.dart';
 import 'package:charity_management_admin/features/posts/pages/post_data/post_data_model.dart';
 import 'package:charity_management_admin/features/posts/services/edit_delete_logic.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PostCard extends ConsumerStatefulWidget {
-  final PostData postData;
+  final PostDataModel postData;
   const PostCard({
     required this.postData,
     super.key,
@@ -64,7 +65,8 @@ class _PostCardState extends ConsumerState<PostCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        widget.postData.postDate,
+                        // widget.postData.postCreatedAt.toString(),
+                        widget.postData.postAddress,
                         style: const TextStyle(),
                       ),
                     ],

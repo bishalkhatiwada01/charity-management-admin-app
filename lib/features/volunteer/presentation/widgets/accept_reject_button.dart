@@ -21,16 +21,16 @@ class AcceptRejectButtons extends StatelessWidget {
             foregroundColor: Theme.of(context).colorScheme.primary,
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           ),
-          child: Text('Accept'),
+          child: const Text('Accept'),
         ),
-        SizedBox(width: 16.0),
+        const SizedBox(width: 16.0),
         ElevatedButton(
           onPressed: onRejectPressed,
           style: ElevatedButton.styleFrom(
             foregroundColor: Theme.of(context).colorScheme.onError,
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
-          child: Text('Reject'),
+          child: const Text('Reject'),
         ),
       ],
     );

@@ -1,11 +1,10 @@
-import 'package:charity_management_admin/common/functions/date_formatted.dart';
 import 'package:charity_management_admin/features/volunteer/data/service.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/pages/application_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AllApplicationsTab extends ConsumerWidget {
+class RequestedApplicationsTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final applicationList = ref.watch(volunteerApplicationProvider);
@@ -58,10 +57,11 @@ class AllApplicationsTab extends ConsumerWidget {
                                 color: Colors.white,
                                 fontStyle: FontStyle.italic),
                           ),
-                          Text(
-                            formatDateTime(application.volunteerCreatedAt),
-                            style: const TextStyle(color: Colors.white),
-                          ),
+
+                          // Text(
+                          //   formatDateTime(application.volunteerCreatedAt),
+                          //   style: const TextStyle(color: Colors.white),
+                          // ),
                         ],
                       ),
                       onTap: () {

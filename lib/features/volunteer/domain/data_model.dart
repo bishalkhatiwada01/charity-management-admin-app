@@ -9,7 +9,7 @@ class VolunteerApplication {
   final Volunteer volunteer;
   final Post post;
   String? volunteerQualification;
-  final String volunteerCreatedAt;
+  // final String volunteerCreatedAt;
   final String volunteerContactNum;
   List<String>? volunteerSkills;
   final String volunteerApplicationId;
@@ -25,7 +25,7 @@ class VolunteerApplication {
     required this.volunteerExperience,
     required this.volunteerAddress,
     this.volunteerQualification,
-    required this.volunteerCreatedAt,
+    // required this.volunteerCreatedAt,
     required this.volunteerApplicationId,
     required this.volunteerContactNum,
     this.volunteerSkills,
@@ -44,30 +44,50 @@ class VolunteerApplication {
       volunteerAddress: json['volunteerAddress'],
       volunteer: json['volunteer'],
       post: json['posts'],
-      volunteerCreatedAt: json['volunteerDate'],
+      // volunteerCreatedAt: json['volunteerDate'],
       volunteerSkills: List<String>.from(json['volunteerSkills']),
       volunteerApplicationId: json['volunteerApplicationId'],
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'userId': userId,
+      'postId': postId,
+      'volunteerEmail': volunteerEmail,
+      'volunteerFullName': volunteerName,
+      'volunteerContactNumber': volunteerContactNum,
+      'volunteerInterests': volunteerInterests,
+      'volunteerExperience': volunteerExperience,
+      'volunteerQualification': volunteerQualification,
+      'volunteerAddress': volunteerAddress,
+      'volunteer': volunteer.toJson(),
+      'posts': post.toJson(),
+      'volunteerSkills': volunteerSkills,
+      'volunteerApplicationId': volunteerApplicationId,
+    };
   }
 }
 
 class Volunteer {
   final String userName;
   final String userEmail;
-  String? volunteerId;
 
   Volunteer({
     required this.userName,
     required this.userEmail,
-    this.volunteerId,
   });
 
   factory Volunteer.fromJson(Map<String, dynamic> json) {
     return Volunteer(
       userName: "${json['firstname']} ${json['lastname']}",
       userEmail: json['email'],
-      volunteerId: json['userId'],
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'userName': userName,
+      'userEmail': userEmail,
+    };
   }
 }
 
@@ -77,7 +97,7 @@ class Post {
   final String postAddress;
   final String postContact;
   final String postImageUrl;
-  final String postDate;
+  // final String postDate;
   final String? postId;
   Post({
     required this.postHeadline,
@@ -85,9 +105,20 @@ class Post {
     required this.postAddress,
     required this.postContact,
     required this.postImageUrl,
-    required this.postDate,
+    // required this.postDate,
     required this.postId,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'postHeadline': postHeadline,
+      'postContent': postContent,
+      'postAddress': postAddress,
+      'postContact': postContact,
+      'postImageUrl': postImageUrl,
+      'postId': postId,
+    };
+  }
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
@@ -97,7 +128,7 @@ class Post {
       postImageUrl: json['postImageUrl'],
       postContact: json['postContact'],
       postId: json['postId'],
-      postDate: json['postCreatedAt'],
+      // postDate: json['postCreatedAt'],
     );
   }
 }

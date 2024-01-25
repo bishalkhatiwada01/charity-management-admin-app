@@ -1,3 +1,4 @@
+import 'package:charity_management_admin/common/functions/date_formatted.dart';
 import 'package:charity_management_admin/features/AdminPost/domain/data_model.dart';
 import 'package:charity_management_admin/features/posts/domain/data_model.dart';
 import 'package:charity_management_admin/features/posts/data/edit_delete_logic.dart';
@@ -18,6 +19,7 @@ class PostDetailsPage extends StatefulWidget {
 }
 
 class _PostDetailsPageState extends State<PostDetailsPage> {
+
   final EditDeleteLogic editDeleteLogic = EditDeleteLogic();
 
   @override
@@ -112,20 +114,8 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                           ),
                           TextSpan(
                             text:
-                                widget.postModel.postCreatedAt
-                                        .toDate()
-                                        .day
-                                        .toString() +
-                                    '/' +
-                                    widget.postModel.postCreatedAt
-                                        .toDate()
-                                        .month
-                                        .toString() +
-                                    '/' +
-                                    widget.postModel.postCreatedAt
-                                        .toDate()
-                                        .year
-                                        .toString(),
+                                // formatDate(widget.postModel.postCreatedAt),
+                                widget.postModel.postAddress,
                             style: TextStyle(
                               color:
                                   Theme.of(context).colorScheme.inversePrimary,

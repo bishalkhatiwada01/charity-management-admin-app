@@ -2,11 +2,11 @@ import 'package:charity_management_admin/features/volunteer/presentation/pages/t
 import 'package:charity_management_admin/features/volunteer/presentation/pages/tabs/requested_application_tab.dart';
 import 'package:flutter/material.dart';
 
-class AllApplicationsPage extends StatelessWidget {
+class ApplicationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: Text('Applications'),
@@ -19,7 +19,7 @@ class AllApplicationsPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            AllApplicationsTab(),
+            RequestedApplicationsTab(),
             AcceptedApplicationsTab(),
           ],
         ),

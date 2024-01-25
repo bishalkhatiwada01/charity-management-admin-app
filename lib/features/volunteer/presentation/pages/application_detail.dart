@@ -2,6 +2,7 @@ import 'package:charity_management_admin/features/volunteer/data/application_ser
 import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/widgets/accept_reject_button.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/widgets/my_rich_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -76,10 +77,10 @@ class _ApplicationDetailPageState extends ConsumerState<ApplicationDetailPage> {
                       value: applicationData.volunteerName,
                     ),
                     const SizedBox(height: 8.0),
-                    LabelValueWidget(
-                      label: 'Applied Date',
-                      value: applicationData.volunteerCreatedAt,
-                    ),
+                    // LabelValueWidget(
+                    //   label: 'Applied Date',
+                    //   value: applicationData.volunteerCreatedAt,
+                    // ),
                     SizedBox(height: 8.h),
                     LabelValueWidget(
                       label: 'email',
@@ -154,14 +155,25 @@ class _ApplicationDetailPageState extends ConsumerState<ApplicationDetailPage> {
         padding: const EdgeInsets.all(16.0),
         child: AcceptRejectButtons(
           onAcceptPressed: () async {
-            final response = await _applicationService.acceptApplication(
-                applicationId: applicationData.volunteerApplicationId);
-            showError(context, response);
+            try {
+              String response = await _applicationService.acceptApplication(
+                  application: applicationData);
+              if (response == 'Application Accepted') {
+                Navigator.pop(context);
+              }
+              showSnackBar(context, response);
+            } catch (error) {
+              print('Error accepting application: $error');
+              showSnackBar(context, 'Error accepting application');
+            }
           },
           onRejectPressed: () async {
-            final response = await _applicationService.rejectApplication(
+            String result = await _applicationService.rejectApplication(
                 applicationId: applicationData.volunteerApplicationId);
-            showError(context, response);
+            if (result == 'Application Rejected') {
+              Navigator.pop(context);
+            }
+            showSnackBar(context, result);
           },
         ),
       ),
@@ -169,6 +181,6 @@ class _ApplicationDetailPageState extends ConsumerState<ApplicationDetailPage> {
   }
 }
 
-void showError(BuildContext context, String message) {
+void showSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
 }
