@@ -56,13 +56,14 @@ class _RegisterPageState extends State<RegisterPage> {
           email: emailController.text,
           password: passwordController.text,
         );
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => HomePage()));
+       
 
         // create the user document and add to firestore
         createUserDocument(userCredential);
         // pop loading circle
         if (context.mounted) Navigator.pop(context);
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => HomePage()));
       } on FirebaseAuthException catch (e) {
         // pop loading circle
         Navigator.pop(context);
@@ -77,7 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> createUserDocument(UserCredential? userCredential) async {
     if (userCredential != null && userCredential.user != null) {
       await FirebaseFirestore.instance
-          .collection("Admin_users")
+          .collection("admin_users")
           .doc(userCredential.user!.uid)
           .set({
         'email': userCredential.user!.email,

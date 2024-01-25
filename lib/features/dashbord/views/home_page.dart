@@ -1,28 +1,27 @@
 import 'package:charity_management_admin/common/widgets/my_drawer.dart';
-import 'package:charity_management_admin/features/posts/pages/create_post_page.dart';
+import 'package:charity_management_admin/features/AdminPost/views/createPostPage.dart';
+import 'package:charity_management_admin/features/posts/pages/post_data/post_data_service.dart';
 import 'package:charity_management_admin/features/posts/services/edit_delete_logic.dart';
 import 'package:charity_management_admin/features/posts/utils/firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:charity_management_admin/features/posts/widgets/my_post_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   final EditDeleteLogic editDeleteLogic = EditDeleteLogic();
 
   // firestore access
   final FirestoreDatabase database = FirestoreDatabase();
-
   // text controller
   final TextEditingController newPostController = TextEditingController();
-
   // post message
   void postMessage() {
     // only post if there something in textfield
@@ -36,6 +35,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final postData = ref.watch(postProvider);
     return SafeArea(
       child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.background,
@@ -50,15 +50,20 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           drawer: const MyDrawer(),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                // posts
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
-                ),
-              ],
+          body: postData.when(
+            data: (data) {
+              return data.isEmpty
+                  ? Text('No Posts')
+                  : ListView.builder(
+                      itemBuilder: (context, index) {
+                        return PostCard(postData: data[index]);
+                      },
+                      itemCount: data.length,
+                    );
+            },
+            error: (error, stackTrace) => Text(error.toString()),
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
             ),
           ),
           floatingActionButton: FloatingActionButton(
@@ -66,7 +71,8 @@ class _HomePageState extends State<HomePage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const CreatePostPage(),
+                    // builder: (context) => const CreatePostPage(),
+                    builder: (context) => PostPage(),
                   ));
             },
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,

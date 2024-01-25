@@ -1,26 +1,14 @@
-import 'package:charity_management_admin/features/posts/pages/edit_post_page.dart';
+import 'package:charity_management_admin/features/posts/pages/post_data/post_data_model.dart';
 import 'package:charity_management_admin/features/posts/services/edit_delete_logic.dart';
 import 'package:charity_management_admin/features/posts/widgets/edit_delete_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PostDetailsPage extends StatefulWidget {
-  final String headline;
-  final String content;
-  final String address;
-  final String contact;
-  final String imageUrl;
-  final String date;
-  final String postId;
+  final PostData postModel;
 
   PostDetailsPage({
-    required this.headline,
-    required this.content,
-    required this.address,
-    required this.contact,
-    required this.imageUrl,
-    required this.date,
-    required this.postId,
+    required this.postModel,
   });
 
   @override
@@ -34,6 +22,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -62,7 +51,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                 borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(12.0)),
                 child: Image.network(
-                  widget.imageUrl,
+                  widget.postModel.postImageUrl,
                   height: 200.0,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -74,7 +63,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.headline,
+                      widget.postModel.postHeadline,
                       style: TextStyle(
                         fontSize: 18.0,
                         color: Theme.of(context).colorScheme.inversePrimary,
@@ -96,7 +85,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                             ),
                           ),
                           TextSpan(
-                            text: widget.address,
+                            text: widget.postModel.postAddress,
                             style: TextStyle(
                               color:
                                   Theme.of(context).colorScheme.inversePrimary,
@@ -123,7 +112,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                             ),
                           ),
                           TextSpan(
-                            text: widget.date,
+                            text: widget.postModel.postDate,
                             style: TextStyle(
                               color:
                                   Theme.of(context).colorScheme.inversePrimary,
@@ -149,7 +138,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                             ),
                           ),
                           TextSpan(
-                            text: widget.contact,
+                            text: widget.postModel.postContact,
                             style: TextStyle(
                               color:
                                   Theme.of(context).colorScheme.inversePrimary,
@@ -175,7 +164,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                             ),
                           ),
                           TextSpan(
-                            text: widget.content,
+                            text: widget.postModel.postContent,
                             style: TextStyle(
                               color:
                                   Theme.of(context).colorScheme.inversePrimary,
@@ -198,22 +187,18 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
         padding: EdgeInsets.all(16.0),
         child: EditDeleteButtons(
           onEditPressed: () async {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => EditPostPage(
-                  initialHeadline: widget.headline,
-                  initialContent: widget.content,
-                  initialAddress: widget.address,
-                  initialContact: widget.contact,
-                  initialImageUrl: widget.imageUrl,
-                  postId: widget.postId,
-                ),
-              ),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => EditPostPage(
+
+            //       postId: widget.postModel.postId,
+            //     ),
+            //   ),
+            // );
           },
           onDeletePressed: () {
-            EditDeleteLogic.deletePost(context, widget.postId);
+            EditDeleteLogic.deletePost(context, widget.postModel.postId);
           },
         ),
       ),

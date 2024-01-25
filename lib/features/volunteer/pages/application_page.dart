@@ -15,7 +15,7 @@ class _ApplicationsPageState extends ConsumerState<ApplicationsPage> {
     final applicationList = ref.watch(volunteerApplicationProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Applications'),
+        title: const Text('Applications'),
       ),
       body: applicationList.when(
         data: (data) {

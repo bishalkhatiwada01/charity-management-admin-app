@@ -4,7 +4,7 @@ import 'package:charity_management_admin/features/dashbord/views/home_page.dart'
 import 'package:charity_management_admin/features/notifications/views/notification_page.dart';
 import 'package:charity_management_admin/features/profile/views/profile_page.dart';
 import 'package:charity_management_admin/features/profile/views/users_page.dart';
-import 'package:charity_management_admin/firebase/firebase_options.dart';
+import 'package:charity_management_admin/firebase_options.dart';
 import 'package:charity_management_admin/helper/login_or_register.dart';
 import 'package:charity_management_admin/shared/status_page.dart';
 import 'package:firebase_core/firebase_core.dart'; 

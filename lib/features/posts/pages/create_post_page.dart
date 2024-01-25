@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
-
 class CreatePostPage extends StatefulWidget {
   const CreatePostPage({super.key});
 
@@ -33,15 +32,15 @@ class _CreatePostPageState extends State<CreatePostPage> {
   File? selectedImage;
 
   void createPost() async {
-    String headline = headlineController.text.trim();
-    String content = contentController.text.trim();
-    String address = addressController.text.trim();
-    String contact = contactController.text.trim();
+    String postHeadline = headlineController.text.trim();
+    String postContent = contentController.text.trim();
+    String postAddress = addressController.text.trim();
+    String postContact = contactController.text.trim();
 
-    if (headline.isEmpty ||
-        content.isEmpty ||
-        address.isEmpty ||
-        contact.isEmpty) {
+    if (postHeadline.isEmpty ||
+        postContact.isEmpty ||
+        postAddress.isEmpty ||
+        postContent.isEmpty) {
       // Show error
       showError(context, 'Please fill in all the fields');
       return;
@@ -63,7 +62,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
         await referenceImageToUpload.putFile(selectedImage!);
 
         // Image is uploaded, now adding the image link to the Firestore database
-        imageUrl = await referenceImageToUpload.getDownloadURL();
+        postImageUrl = await referenceImageToUpload.getDownloadURL();
       } catch (error) {
         // Handle errors
         showError(context, 'Failed to upload image: $error');
@@ -73,12 +72,12 @@ class _CreatePostPageState extends State<CreatePostPage> {
 
     // Add to Firestore
     FirebaseFirestore.instance.collection('posts').add({
-      'headline': headline,
-      'content': content,
-      'address': address,
-      'contact': contact,
-      'createdAt': Timestamp.now(),
-      'imageUrl': imageUrl,
+      'postHeadline': postHeadline,
+      'postContent': postContent,
+      'postAddress': postAddress,
+      'postContact': postContact,
+      'postImageUrl': postImageUrl,
+      'postCreatedAt': Timestamp.now(),
     }).then((docRef) {
       if (kDebugMode) {
         print('Added post with ID: ${docRef.id}');
@@ -93,7 +92,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
     Navigator.of(context).pop();
   }
 
-  String imageUrl = '';
+  String postImageUrl = '';
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +208,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                                   .putFile(File(file.path));
 
                               // image is uploaded, now adding the image link to firebase database
-                              imageUrl =
+                              postImageUrl =
                                   await referenceImageToUpload.getDownloadURL();
                             } catch (error) {
                               // errors
