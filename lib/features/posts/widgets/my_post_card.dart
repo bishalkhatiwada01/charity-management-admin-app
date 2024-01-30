@@ -19,13 +19,13 @@ class PostCard extends ConsumerStatefulWidget {
 class _PostCardState extends ConsumerState<PostCard> {
   @override
   Widget build(BuildContext context) {
-    print(widget.postData.postImageUrl);
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => PostDetailsPage(
               postModel: widget.postData,
+              postId: widget.postData.postId,
             ),
           ),
         );
@@ -70,18 +70,18 @@ class _PostCardState extends ConsumerState<PostCard> {
                         // widget.postData.postAddress,
                         style: const TextStyle(),
                       ),
+                      IconButton(
+                        onPressed: () {
+                          EditDeleteLogic.deletePost(
+                              context, widget.postData.postId);
+                        },
+                        icon: Icon(
+                          Icons.delete_rounded,
+                          size: 23.sp,
+                          color: Colors.red.shade400,
+                        ),
+                      ),
                     ],
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      EditDeleteLogic.deletePost(
-                          context, widget.postData.postId);
-                    },
-                    icon: Icon(
-                      Icons.delete_rounded,
-                      size: 23.sp,
-                      color: Colors.red.shade400,
-                    ),
                   ),
                 ],
               ),

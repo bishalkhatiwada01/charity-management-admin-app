@@ -5,10 +5,12 @@ import 'package:charity_management_admin/features/posts/widgets/edit_delete_butt
 import 'package:flutter/material.dart';
 
 class PostDetailsPage extends StatefulWidget {
+  final String postId;
   final PostDataModel postModel;
 
   const PostDetailsPage({
-    super.key,
+    Key? key,
+    required this.postId,
     required this.postModel,
   });
 

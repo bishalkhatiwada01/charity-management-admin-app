@@ -55,20 +55,15 @@ class PostDataSource {
   }
 
   Future<String> updatePost({
-    required String postId,
-    required String postHeadline,
-    required String postAddress,
-    required String postContact,
-    required String postContent,
-    required String postImageUrl,
+    required PostDataModel postDataModel,
   }) async {
     try {
-      await postDb.doc(postId).update({
-        'postHeadline': postHeadline,
-        'postAddress': postAddress,
-        'postContact': postContact,
-        'postContent': postContent,
-        'postImageUrl': postImageUrl,
+      await postDb.doc(postDataModel.postId).update({
+        'postHeadline': postDataModel.postHeadline,
+        'postAddress': postDataModel.postAddress,
+        'postContact': postDataModel.postContact,
+        'postContent': postDataModel.postContent,
+        'postImageUrl': postDataModel.postImageUrl,
         'postCreatedAt': DateTime.now().microsecondsSinceEpoch.toString(),
       });
 

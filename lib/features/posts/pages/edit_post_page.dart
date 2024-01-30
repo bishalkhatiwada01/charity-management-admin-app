@@ -195,8 +195,10 @@ import 'dart:io';
 
 import 'package:charity_management_admin/common/widgets/my_button.dart';
 import 'package:charity_management_admin/features/posts/data/post_data/data_model.dart';
+import 'package:charity_management_admin/features/posts/services/post_service.dart';
 import 'package:charity_management_admin/features/posts/widgets/my_post_textfield.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -223,8 +225,8 @@ class EditPostPageState extends State<EditPostPage> {
   late TextEditingController contactController;
   late TextEditingController imageUrlController;
 
-  String imageUrl = '';
-
+  late String postImageUrl;
+  File? selectedImage;
 
   @override
   void initState() {
@@ -237,6 +239,7 @@ class EditPostPageState extends State<EditPostPage> {
         TextEditingController(text: widget.postDataModel.postAddress);
     contactController =
         TextEditingController(text: widget.postDataModel.postContact);
+    postImageUrl = widget.postDataModel.postImageUrl;
   }
 
   @override
@@ -302,7 +305,7 @@ class EditPostPageState extends State<EditPostPage> {
                     ),
                   ),
                   child: Image.network(
-                    imageUrl,
+                    postImageUrl,
                     height: 200.0,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -310,30 +313,36 @@ class EditPostPageState extends State<EditPostPage> {
                 ),
                 IconButton(
                   onPressed: () async {
-                    // add the package image picker
-                    final file = await ImagePicker()
-                        .pickImage(source: ImageSource.gallery);
-                    if (file == null) return;
-                    String filename =
-                        DateTime.now().microsecondsSinceEpoch.toString();
+                    final ImagePicker picker = ImagePicker();
+                    final postImage =
+                        await picker.pickImage(source: ImageSource.gallery);
 
-                    // creating the image folder and uploading image inside it
-                    Reference referenceRoot = FirebaseStorage.instance.ref();
-                    Reference referenceDireImages =
-                        referenceRoot.child('images');
+                    if (postImage != null) {
+                      // Delete the old image from Firebase Storage
+                      if (postImageUrl != null && postImageUrl.isNotEmpty) {
+                        Reference oldImageRef =
+                            FirebaseStorage.instance.refFromURL(postImageUrl);
+                        await oldImageRef.delete();
+                      }
 
-                    // creating the reference for the image to be stored
-                    Reference referenceImageToUpload =
-                        referenceDireImages.child(filename);
+                      // Upload the new image to Firebase Storage
+                      final imageId = DateTime.now().toString();
+                      final ref = FirebaseStorage.instance
+                          .ref()
+                          .child('postImages/$imageId');
+                      await ref.putFile(File(postImage.path));
+                      final url = await ref.getDownloadURL();
 
-                    // for error handling and success
-                    try {
-                      await referenceImageToUpload.putFile(File(file.path));
+                      if (kDebugMode) {
+                        print(url);
+                      }
 
-                      // image is uploaded, now adding the image link to firebase database
-                      imageUrl = await referenceImageToUpload.getDownloadURL();
-                    } catch (error) {
-                      // handle errors
+                      setState(() {
+                        selectedImage = File(postImage.path);
+                        postImageUrl = url;
+                      });
+                    } else {
+                      return;
                     }
                   },
                   icon: const Icon(Icons.add_a_photo),
@@ -342,7 +351,22 @@ class EditPostPageState extends State<EditPostPage> {
                 MyButton(
                   text: 'Submit',
                   onTap: () async {
-                    
+                    PostDataModel postDataModel = PostDataModel(
+                      postId: widget.postDataModel.postId,
+                      postHeadline: headlineController.text,
+                      postContent: contentController.text,
+                      postAddress: addressController.text,
+                      postContact: contactController.text,
+                      postImageUrl: postImageUrl,
+                      postCreatedAt: widget.postDataModel.postCreatedAt,
+                    );
+                    await PostDataSource().updatePost(
+                      postDataModel: postDataModel,
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Post Updated')),
+                    );
+                    Navigator.pop(context);
                   },
                 ),
               ],

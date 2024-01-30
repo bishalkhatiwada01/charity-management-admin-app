@@ -160,10 +160,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
                             return;
                           }
                         },
-                        // onPressed: () {
-                        //   // Navigator.push(context,
-                        //   //     MaterialPageRoute(builder: (_) => ImagePage()));
-                        // },
                         icon: const Icon(Icons.add_a_photo),
                       ),
                 SizedBox(height: 10.h),
