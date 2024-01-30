@@ -4,12 +4,11 @@ import 'package:charity_management_admin/features/posts/pages/edit_post_page.dar
 import 'package:charity_management_admin/features/posts/widgets/edit_delete_button.dart';
 import 'package:flutter/material.dart';
 
-
 class PostDetailsPage extends StatefulWidget {
   final PostDataModel postModel;
 
   const PostDetailsPage({
-    super.key, 
+    super.key,
     required this.postModel,
   });
 
@@ -183,7 +182,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
           ),
         ),
       ),
-      floatingActionButton: const SizedBox.shrink(), 
+      floatingActionButton: const SizedBox.shrink(),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
         child: EditDeleteButtons(
@@ -192,11 +191,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
               context,
               MaterialPageRoute(
                 builder: (context) => EditPostPage(
-                  initialAddress: '',
-                  postId: widget.postModel.postId,
-                  initialHeadline: '',
-                  initialContent: '',
-                  initialContact: '',
+                  postDataModel: widget.postModel,
                 ),
               ),
             );

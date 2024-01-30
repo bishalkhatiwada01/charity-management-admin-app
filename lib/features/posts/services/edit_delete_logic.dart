@@ -1,3 +1,4 @@
+import 'package:charity_management_admin/features/posts/data/post_data/data_model.dart';
 import 'package:charity_management_admin/features/posts/pages/edit_post_page.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,25 +7,13 @@ import 'package:flutter/material.dart';
 class EditDeleteLogic {
   static void editPost(
     BuildContext context, {
-    required String headline,
-    required String content,
-    required String address,
-    required String contact,
-    required String imageUrl,
-    required String postId,
-    required Function(Map<String, dynamic>) onUpdate,
+    required final PostDataModel postDataModel,
   }) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => EditPostPage(
-          initialHeadline: headline,
-          initialContent: content,
-          initialAddress: address,
-          initialContact: contact,
-          // initialImageUrl: imageUrl,
-          postId: postId,
-          onUpdate: onUpdate,
+          postDataModel: postDataModel,
         ),
       ),
     );
