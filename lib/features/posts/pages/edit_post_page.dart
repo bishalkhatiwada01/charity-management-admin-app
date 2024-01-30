@@ -1,29 +1,31 @@
 import 'dart:io';
 
 import 'package:charity_management_admin/common/widgets/my_button.dart';
+import 'package:charity_management_admin/features/posts/data/post_data/data_model.dart';
 import 'package:charity_management_admin/features/posts/services/submit_button_logic.dart.dart';
 import 'package:charity_management_admin/features/posts/widgets/my_post_textfield.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditPostPage extends StatefulWidget {
+
   final String initialHeadline;
   final String initialContent;
   final String initialAddress;
   final String initialContact;
-  final String initialImageUrl;
+  // final String initialImageUrl;
   final String postId;
   final Function(Map<String, dynamic>)? onUpdate; // Make onUpdate optional
 
-  EditPostPage({
+  const EditPostPage({
+    super.key, 
     required this.initialHeadline,
     required this.initialContent,
     required this.initialAddress,
     required this.initialContact,
-    required this.initialImageUrl,
+    // required this.initialImageUrl,
     required this.postId,
     this.onUpdate, // Pass the onUpdate as an optional parameter
   });
@@ -55,7 +57,7 @@ class EditPostPageState extends State<EditPostPage> {
     contentController.text = widget.initialContent;
     addressController.text = widget.initialAddress;
     contactController.text = widget.initialContact;
-    imageUrl = widget.initialImageUrl;
+    // imageUrl = widget.initialImageUrl;
   }
 
   @override

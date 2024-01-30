@@ -33,20 +33,20 @@ void submitButtonLogic({
   String updatedContact = contactController.text.trim();
 
   // Perform the update operation
-  await FirebaseFirestore.instance.collection('posts').doc(postId).update({
-    'headline': updatedHeadline,
-    'content': updatedContent,
-    'address': updatedAddress,
-    'contact': updatedContact,
+  await FirebaseFirestore.instance.collection('Posts').doc(postId).update({
+    'postHeadline': updatedHeadline,
+    'postContent': updatedContent,
+    'postAddress': updatedAddress,
+    'postContact': updatedContact,
     // Add other fields as needed
   });
 
   // Get the updated data
   Map<String, dynamic> updatedData = {
-    'headline': updatedHeadline,
-    'content': updatedContent,
-    'address': updatedAddress,
-    'contact': updatedContact,
+    'postHeadline': updatedHeadline,
+    'postContent': updatedContent,
+    'postAddress': updatedAddress,
+    'postContact': updatedContact,
     // Add other fields as needed
   };
 

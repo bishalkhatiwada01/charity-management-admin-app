@@ -1,4 +1,5 @@
 import 'package:charity_management_admin/features/posts/pages/edit_post_page.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class EditDeleteLogic {
           initialContent: content,
           initialAddress: address,
           initialContact: contact,
-          initialImageUrl: imageUrl,
+          // initialImageUrl: imageUrl,
           postId: postId,
           onUpdate: onUpdate,
         ),
@@ -42,5 +43,4 @@ class EditDeleteLogic {
       // Optionally, show a snackbar or alert the user about the error
     }
   }
-  
 }

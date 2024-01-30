@@ -1,6 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
-
 class PostDataModel {
   String postId;
   String postHeadline;
@@ -8,7 +5,7 @@ class PostDataModel {
   String postAddress;
   String postContact;
   String postImageUrl;
-  // Timestamp postCreatedAt;
+  String postCreatedAt;
 
   PostDataModel({
     required this.postId,
@@ -17,7 +14,7 @@ class PostDataModel {
     required this.postAddress,
     required this.postContact,
     required this.postImageUrl,
-    // required this.postCreatedAt,
+    required this.postCreatedAt,
   });
 
   factory PostDataModel.fromJson(Map<String, dynamic> json) {
@@ -28,7 +25,7 @@ class PostDataModel {
       postAddress: json['postAddress'],
       postContact: json['postContact'],
       postImageUrl: json['postImageUrl'],
-      // postCreatedAt: json['postCreatedAt'],
+      postCreatedAt: json['postCreatedAt'],
     );
   }
 
@@ -40,11 +37,7 @@ class PostDataModel {
       'postAddress': postAddress,
       'postContact': postContact,
       'postImageUrl': postImageUrl,
-      // 'postCreatedAt': postCreatedAt,
+      'postCreatedAt': postCreatedAt,
     };
   }
-  // String formattedDate() {
-  //   DateTime dateTime = postCreatedAt.toDate();
-  //   return DateFormat.yMd().add_Hms().format(dateTime);
-  // }
 }

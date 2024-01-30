@@ -1,15 +1,17 @@
-import 'package:charity_management_admin/features/volunteer/data/service.dart';
-import 'package:charity_management_admin/features/volunteer/presentation/pages/application_detail.dart';
+import 'package:charity_management_admin/features/volunteer/domain/application_data_provider.dart';
+import 'package:charity_management_admin/features/volunteer/presentation/pages/accepted_application_detail.dart';
+import 'package:charity_management_admin/features/volunteer/presentation/pages/requested_application_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RequestedApplicationsTab extends ConsumerWidget {
+  const RequestedApplicationsTab({super.key});
+
   @override
   Widget build(BuildContext context, ref) {
     final applicationList = ref.watch(volunteerApplicationProvider);
 
-    // Replace this with your actual data
     return Center(
       child: applicationList.when(
         data: (data) {
@@ -67,9 +69,9 @@ class RequestedApplicationsTab extends ConsumerWidget {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => ApplicationDetailPage(
-                              application: application,
-                            ),
+                            builder: (context) =>
+                                RequestedApplicationDetailPage(
+                                    application: application),
                           ),
                         );
                       },

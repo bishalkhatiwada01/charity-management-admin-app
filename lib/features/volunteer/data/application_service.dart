@@ -2,9 +2,9 @@ import 'package:charity_management_admin/features/volunteer/domain/data_model.da
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ApplicationService {
-
-  final CollectionReference _volunteerApplicationsRef =
+  final _volunteerApplicationsRef =
       FirebaseFirestore.instance.collection('volunteer_applications');
+
 
   Future<String> acceptApplication({
     required VolunteerApplication application,
@@ -21,14 +21,11 @@ class ApplicationService {
           .doc(application.volunteerApplicationId)
           .delete();
 
-
       return 'Application Accepted';
     } on FirebaseException catch (e) {
       return e.message.toString();
     }
   }
-
-  
 
   Future<String> rejectApplication({required String applicationId}) async {
     try {

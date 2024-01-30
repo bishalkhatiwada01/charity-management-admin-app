@@ -1,18 +1,13 @@
 import 'dart:async';
 import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final volunteerApplicationProvider = FutureProvider<List<VolunteerApplication>>(
-  (ref) => DataService().getApplication(),
-);
-
-final class DataService {
+final class AcceptedDataService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Future<List<VolunteerApplication>> getApplication() async {
+  Future<List<VolunteerApplication>> getAcceptedApplication() async {
     try {
-      final listData = await _db.collection('volunteer_applications').get();
+      final listData = await _db.collection('accepted_applications').get();
 
       final applicationList = await Future.wait(listData.docs.map((e) async {
         final json = e.data();
@@ -22,7 +17,7 @@ final class DataService {
           ...json,
           'volunteer': volunteer,
           'posts': post,
-          'volunteerApplicationId': e.id,
+          'acceptedApplicationId': e.id,
         });
       }));
       return applicationList;

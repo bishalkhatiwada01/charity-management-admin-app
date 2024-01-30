@@ -2,23 +2,23 @@ import 'package:charity_management_admin/features/volunteer/data/application_ser
 import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/widgets/accept_reject_button.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/widgets/my_rich_text.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ApplicationDetailPage extends ConsumerStatefulWidget {
+class RequestedApplicationDetailPage extends ConsumerStatefulWidget {
   final VolunteerApplication application;
 
-  ApplicationDetailPage({super.key, required this.application});
+  RequestedApplicationDetailPage({super.key, required this.application});
   @override
-  ConsumerState<ApplicationDetailPage> createState() =>
-      _ApplicationDetailPageState();
+  ConsumerState<RequestedApplicationDetailPage> createState() =>
+      _RequestedApplicationDetailPageState();
 }
 
 ApplicationService _applicationService = ApplicationService();
 
-class _ApplicationDetailPageState extends ConsumerState<ApplicationDetailPage> {
+class _RequestedApplicationDetailPageState
+    extends ConsumerState<RequestedApplicationDetailPage> {
   @override
   Widget build(BuildContext context) {
     final applicationData = widget.application;

@@ -1,8 +1,7 @@
 import 'package:charity_management_admin/common/widgets/my_drawer.dart';
-import 'package:charity_management_admin/features/AdminPost/views/createPostPage.dart';
-import 'package:charity_management_admin/features/posts/pages/post_data/post_data_service.dart';
+import 'package:charity_management_admin/features/posts/pages/create_post_page.dart';
+import 'package:charity_management_admin/features/posts/data/post_data/post_data_service.dart';
 import 'package:charity_management_admin/features/posts/services/edit_delete_logic.dart';
-import 'package:charity_management_admin/features/posts/utils/firestore.dart';
 import 'package:charity_management_admin/features/posts/widgets/my_post_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,19 +18,10 @@ class _HomePageState extends ConsumerState<HomePage> {
   final EditDeleteLogic editDeleteLogic = EditDeleteLogic();
 
   // firestore access
-  final FirestoreDatabase database = FirestoreDatabase();
+
   // text controller
   final TextEditingController newPostController = TextEditingController();
   // post message
-  void postMessage() {
-    // only post if there something in textfield
-    if (newPostController.text.isNotEmpty) {
-      String message = newPostController.text;
-      database.addPost(message);
-    }
-    // clear the controller
-    newPostController.clear();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +35,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             foregroundColor: Theme.of(context).colorScheme.inversePrimary,
             elevation: 0,
             title: const Text(
-              'POSTS',
+              'MY POSTS',
               style: TextStyle(letterSpacing: 6),
             ),
           ),
@@ -53,7 +43,11 @@ class _HomePageState extends ConsumerState<HomePage> {
           body: postData.when(
             data: (data) {
               return data.isEmpty
-                  ? Text('No Posts')
+                  ? Center(
+                      child: Text(
+                      'No Posts',
+                      style: TextStyle(fontSize: 20.sp),
+                    ))
                   : ListView.builder(
                       itemBuilder: (context, index) {
                         return PostCard(postData: data[index]);
@@ -67,13 +61,15 @@ class _HomePageState extends ConsumerState<HomePage> {
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              var result = await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    // builder: (context) => const CreatePostPage(),
-                    builder: (context) => PostPage(),
+                    builder: (context) => const CreatePostPage(),
                   ));
+              if (result == 'postCreated') {
+                setState(() {});
+              }
             },
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             child: Icon(

@@ -1,14 +1,10 @@
-import 'dart:io';
-
-import 'package:charity_management_admin/features/AdminPost/domain/data_model.dart';
+import 'package:charity_management_admin/features/posts/data/post_data/data_model.dart';
 import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class PostDataSource {
-  final postDb = FirebaseFirestore.instance.collection('Posts');
+  final postDb = FirebaseFirestore.instance.collection('posts');
 
   Future<String> createPost({
     required String postHeadline,
@@ -24,7 +20,7 @@ class PostDataSource {
         'postContact': postContact,
         'postContent': postContent,
         'postImageUrl': postImageUrl,
-        'postCreatedAt': Timestamp.now(),
+        'postCreatedAt': DateTime.now().microsecondsSinceEpoch.toString(),
       });
 
       return 'Post Created';

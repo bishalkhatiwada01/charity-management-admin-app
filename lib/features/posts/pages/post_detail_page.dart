@@ -1,14 +1,15 @@
-import 'package:charity_management_admin/features/posts/pages/post_data/post_data_model.dart';
+import 'package:charity_management_admin/features/posts/data/post_data/data_model.dart';
 import 'package:charity_management_admin/features/posts/services/edit_delete_logic.dart';
-import 'package:charity_management_admin/features/posts/views/edit_post_page.dart';
+import 'package:charity_management_admin/features/posts/pages/edit_post_page.dart';
 import 'package:charity_management_admin/features/posts/widgets/edit_delete_button.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class PostDetailsPage extends StatefulWidget {
-  final PostData postModel;
 
-  PostDetailsPage({
+class PostDetailsPage extends StatefulWidget {
+  final PostDataModel postModel;
+
+  const PostDetailsPage({
+    super.key, 
     required this.postModel,
   });
 
@@ -17,13 +18,10 @@ class PostDetailsPage extends StatefulWidget {
 }
 
 class _PostDetailsPageState extends State<PostDetailsPage> {
-
   final EditDeleteLogic editDeleteLogic = EditDeleteLogic();
-
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -113,7 +111,9 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                             ),
                           ),
                           TextSpan(
-                            text: widget.postModel.postDate,
+                            text:
+                                // formatDate(widget.postModel.postCreatedAt),
+                                widget.postModel.postAddress,
                             style: TextStyle(
                               color:
                                   Theme.of(context).colorScheme.inversePrimary,
@@ -183,21 +183,23 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
           ),
         ),
       ),
-      floatingActionButton: SizedBox.shrink(), // Hide the original FAB
+      floatingActionButton: const SizedBox.shrink(), 
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: EditDeleteButtons(
           onEditPressed: () async {
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => EditPostPage(
-                  
-
-            //         postId: widget.postModel.postId,
-            //       ),
-            //     ),
-            //   );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EditPostPage(
+                  initialAddress: '',
+                  postId: widget.postModel.postId,
+                  initialHeadline: '',
+                  initialContent: '',
+                  initialContact: '',
+                ),
+              ),
+            );
           },
           onDeletePressed: () {
             EditDeleteLogic.deletePost(context, widget.postModel.postId);

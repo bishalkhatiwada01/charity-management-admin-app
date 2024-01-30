@@ -1,6 +1,6 @@
-import 'package:charity_management_admin/features/AdminPost/domain/data_model.dart';
-import 'package:charity_management_admin/features/posts/pages/post_data/post_data_model.dart';
+import 'package:charity_management_admin/features/posts/data/post_data/data_model.dart';
 import 'package:charity_management_admin/features/posts/services/edit_delete_logic.dart';
+import 'package:charity_management_admin/features/posts/pages/post_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,15 +19,16 @@ class PostCard extends ConsumerStatefulWidget {
 class _PostCardState extends ConsumerState<PostCard> {
   @override
   Widget build(BuildContext context) {
+    print(widget.postData.postImageUrl);
     return InkWell(
       onTap: () {
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (_) => PostDetailsPage(
-        //       postModel: widget.postData,
-        //     ),
-        //   ),
-        // );
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => PostDetailsPage(
+              postModel: widget.postData,
+            ),
+          ),
+        );
       },
       child: Card(
         elevation: 4.0,
@@ -65,8 +66,8 @@ class _PostCardState extends ConsumerState<PostCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        // widget.postData.postCreatedAt.toString(),
-                        widget.postData.postAddress,
+                        widget.postData.postCreatedAt.toString(),
+                        // widget.postData.postAddress,
                         style: const TextStyle(),
                       ),
                     ],

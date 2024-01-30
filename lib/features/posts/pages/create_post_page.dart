@@ -1,8 +1,10 @@
-import 'dart:io';
+// ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
 import 'package:charity_management_admin/common/widgets/my_button.dart';
+import 'package:charity_management_admin/features/dashbord/views/home_page.dart';
+import 'package:charity_management_admin/features/posts/services/post_service.dart';
 import 'package:charity_management_admin/features/posts/widgets/my_post_textfield.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,220 +19,163 @@ class CreatePostPage extends StatefulWidget {
 }
 
 class _CreatePostPageState extends State<CreatePostPage> {
-  // for validate
-  bool headlineError = false;
-  bool contentError = false;
-  bool addressError = false;
-  bool contactNoError = false;
-  // Text controllers
-  final headlineController = TextEditingController();
-  final contentController = TextEditingController();
-  final addressController = TextEditingController();
-  final contactController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _postService = PostDataSource();
 
-  // Image file
+  late String postImageUrl;
   File? selectedImage;
 
-  void createPost() async {
-    String postHeadline = headlineController.text.trim();
-    String postContent = contentController.text.trim();
-    String postAddress = addressController.text.trim();
-    String postContact = contactController.text.trim();
+  final TextEditingController postHeadlineController = TextEditingController();
+  final TextEditingController postAddressController = TextEditingController();
+  final TextEditingController postContactController = TextEditingController();
+  final TextEditingController postContentController = TextEditingController();
+  final TextEditingController postImageUrlController = TextEditingController();
 
-    if (postHeadline.isEmpty ||
-        postContact.isEmpty ||
-        postAddress.isEmpty ||
-        postContent.isEmpty) {
-      // Show error
-      showError(context, 'Please fill in all the fields');
-      return;
+  String? _validateTextField(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'This field is required';
     }
-
-    if (selectedImage != null) {
-      // If an image is selected, upload it to Firebase Storage
-      String filename = DateTime.now().microsecondsSinceEpoch.toString();
-
-      // Get the reference to storage root
-      Reference referenceRoot = FirebaseStorage.instance.ref();
-      Reference referenceDireImages = referenceRoot.child('images');
-
-      // Creating the reference for the image to be stored
-      Reference referenceImageToUpload = referenceDireImages.child(filename);
-
-      // For error handling and success
-      try {
-        await referenceImageToUpload.putFile(selectedImage!);
-
-        // Image is uploaded, now adding the image link to the Firestore database
-        postImageUrl = await referenceImageToUpload.getDownloadURL();
-      } catch (error) {
-        // Handle errors
-        showError(context, 'Failed to upload image: $error');
-        return;
-      }
-    }
-
-    // Add to Firestore
-    FirebaseFirestore.instance.collection('posts').add({
-      'postHeadline': postHeadline,
-      'postContent': postContent,
-      'postAddress': postAddress,
-      'postContact': postContact,
-      'postImageUrl': postImageUrl,
-      'postCreatedAt': Timestamp.now(),
-    }).then((docRef) {
-      if (kDebugMode) {
-        print('Added post with ID: ${docRef.id}');
-      }
-      // Data added, clear fields
-      headlineController.clear();
-      contentController.clear();
-      addressController.clear();
-      contactController.clear();
-      selectedImage = null;
-    });
-    Navigator.of(context).pop();
+    return null;
   }
 
-  String postImageUrl = '';
+  void _submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      String result = await _postService.createPost(
+        postHeadline: postHeadlineController.text.trim(),
+        postAddress: postAddressController.text.trim(),
+        postContact: postContactController.text.trim(),
+        postContent: postContentController.text.trim(),
+        postImageUrl: postImageUrl,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result)),
+      );
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const HomePage()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          iconTheme: IconThemeData(
-            color: Theme.of(context).colorScheme.inversePrimary,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+        elevation: 0,
+        title: const Text(
+          'CREATE POST',
+          style: TextStyle(
+            letterSpacing: 4,
           ),
-          title: Text(
-            'C R E A T E   P O S T',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.inversePrimary,
-            ),
-          ),
-          centerTitle: true,
         ),
-        body: SingleChildScrollView(
+      ),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-              child: Column(
-                children: [
-                  MyPostTextField(
-                    maxlines: 1,
-                    controller: headlineController,
-                    labelText: 'Headline',
-                    obscureText: false,
-                  ),
-                  SizedBox(height: 10.h),
-                  MyPostTextField(
-                    maxlines: 5,
-                    controller: contentController,
-                    labelText: 'Content',
-                    obscureText: false,
-                  ),
-                  SizedBox(height: 10.h),
-                  MyPostTextField(
-                    maxlines: 1,
-                    controller: addressController,
-                    labelText: 'Address',
-                    obscureText: false,
-                  ),
-                  SizedBox(height: 10.h),
-                  MyPostTextField(
-                    maxlines: 1,
-                    controller: contactController,
-                    labelText: 'Contact No.',
-                    obscureText: false,
-                  ),
-                  SizedBox(height: 10.h),
-                  selectedImage != null
-                      ? Column(
-                          children: [
-                            Stack(
-                              alignment: AlignmentDirectional.topEnd,
-                              children: [
-                                Image.file(
-                                  selectedImage!,
-                                  height: 150.h,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 10.h),
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  selectedImage = null;
-                                });
-                              },
-                              icon: Icon(
-                                Icons.delete_forever_sharp,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .inversePrimary,
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                MyPostTextField(
+                  maxlines: 1,
+                  controller: postHeadlineController,
+                  labelText: 'Headline',
+                  obscureText: false,
+                ),
+                SizedBox(height: 10.h),
+                MyPostTextField(
+                  maxlines: 5,
+                  controller: postContentController,
+                  labelText: 'Content',
+                  obscureText: false,
+                ),
+                SizedBox(height: 10.h),
+                MyPostTextField(
+                  maxlines: 1,
+                  controller: postAddressController,
+                  labelText: 'Address',
+                  obscureText: false,
+                ),
+                SizedBox(height: 10.h),
+                MyPostTextField(
+                  maxlines: 1,
+                  controller: postContactController,
+                  labelText: 'Contact No.',
+                  obscureText: false,
+                ),
+                SizedBox(height: 10.h),
+                selectedImage != null
+                    ? Column(
+                        children: [
+                          Stack(
+                            alignment: AlignmentDirectional.topEnd,
+                            children: [
+                              Image.file(
+                                selectedImage!,
+                                height: 150.h,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
                               ),
-                            ),
-                          ],
-                        )
-                      : IconButton(
-                          onPressed: () async {
-                            // add the package image picker
-                            final file = await ImagePicker()
-                                .pickImage(source: ImageSource.gallery);
-                            if (file == null) return;
-                            String filename = DateTime.now()
-                                .microsecondsSinceEpoch
-                                .toString();
-
-                            // Get the reference to storage root
-                            // creating the image folder and uploading image inside it
-                            Reference referenceRoot =
-                                FirebaseStorage.instance.ref();
-                            Reference referenceDireImages =
-                                referenceRoot.child('images');
-
-                            //creating the reference for the image to be stored
-                            Reference referenceImageToUpload =
-                                referenceDireImages.child(filename);
-
-                            // for error handleing and success
-                            try {
+                            ],
+                          ),
+                          SizedBox(height: 10.h),
+                          IconButton(
+                            onPressed: () {
                               setState(() {
-                                selectedImage = File(file.path);
+                                selectedImage = null;
                               });
+                            },
+                            icon: Icon(
+                              Icons.delete_forever_sharp,
+                              color:
+                                  Theme.of(context).colorScheme.inversePrimary,
+                            ),
+                          ),
+                        ],
+                      )
+                    : IconButton(
+                        onPressed: () async {
+                          final ImagePicker picker = ImagePicker();
+                          final postImage = await picker.pickImage(
+                              source: ImageSource.gallery);
 
-                              await referenceImageToUpload
-                                  .putFile(File(file.path));
-
-                              // image is uploaded, now adding the image link to firebase database
-                              postImageUrl =
-                                  await referenceImageToUpload.getDownloadURL();
-                            } catch (error) {
-                              // errors
+                          if (postImage != null) {
+                            final imageId = DateTime.now().toString();
+                            final ref = FirebaseStorage.instance
+                                .ref()
+                                .child('postImages/$imageId');
+                            await ref.putFile(File(postImage.path));
+                            final url = await ref.getDownloadURL();
+                            if (kDebugMode) {
+                              print(url);
                             }
-                          },
-                          icon: const Icon(Icons.add_a_photo),
-                        ),
-                  SizedBox(height: 10.h),
-                  MyButton(
-                    text: 'Submit',
-                    onTap: createPost,
-                  ),
-                ],
-              ),
+                            setState(() {
+                              selectedImage = File(postImage.path);
+                              postImageUrl = url;
+                            });
+                          } else {
+                            return;
+                          }
+                        },
+                        // onPressed: () {
+                        //   // Navigator.push(context,
+                        //   //     MaterialPageRoute(builder: (_) => ImagePage()));
+                        // },
+                        icon: const Icon(Icons.add_a_photo),
+                      ),
+                SizedBox(height: 10.h),
+                MyButton(
+                  text: 'Submit',
+                  onTap: _submitForm,
+                ),
+              ],
             ),
           ),
         ),
       ),
     );
   }
-}
-
-void showError(BuildContext context, String message) {
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
 }
