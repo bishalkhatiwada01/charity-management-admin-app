@@ -1,23 +1,35 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FormattedDate extends StatelessWidget {
-  final Timestamp timestamp;
-
-  FormattedDate({required this.timestamp});
-
-  @override
-  Widget build(BuildContext context) {
-    String formattedDate = DateFormatter.formatTimestamp(timestamp);
-
-    return Text('Formatted Date: $formattedDate');
-  }
+String formatDateTime(String dateString) {
+  DateTime dateTime = DateTime.parse(dateString);
+  return DateFormat.yMMMEd().add_jm().format(dateTime);
 }
 
-class DateFormatter {
-  static String formatTimestamp(Timestamp timestamp) {
-    DateTime dateTime = timestamp.toDate();
-    return DateFormat.yMd().add_Hms().format(dateTime);
+String formatDistanceToNowStrict(String dateString) {
+  DateTime now = DateTime.now();
+  DateTime date = DateTime.parse(dateString);
+  Duration difference = now.difference(date);
+  if (difference.inSeconds < 60) {
+    int seconds = difference.inSeconds;
+    if (difference.inSeconds.isNegative) {
+      return '0 seconds';
+    } else {
+      return '$seconds seconds';
+    }
+  } else if (difference.inMinutes < 60) {
+    int minutes = difference.inMinutes;
+    return '$minutes minutes';
+  } else if (difference.inHours < 24) {
+    int hours = difference.inHours;
+    return '$hours hours';
+  } else if (difference.inDays < 30) {
+    int days = difference.inDays;
+    return '$days days';
+  } else if (difference.inDays < 365) {
+    int months = difference.inDays ~/ 30;
+    return '$months months';
+  } else {
+    int years = difference.inDays ~/ 365;
+    return '$years years';
   }
 }

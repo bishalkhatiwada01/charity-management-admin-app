@@ -77,10 +77,10 @@ class _RequestedApplicationDetailPageState
                       value: applicationData.volunteerName,
                     ),
                     const SizedBox(height: 8.0),
-                    // LabelValueWidget(
-                    //   label: 'Applied Date',
-                    //   value: applicationData.volunteerCreatedAt,
-                    // ),
+                    LabelValueWidget(
+                      label: 'Applied Date',
+                      value: applicationData.volunteerCreatedAt,
+                    ),
                     SizedBox(height: 8.h),
                     LabelValueWidget(
                       label: 'email',

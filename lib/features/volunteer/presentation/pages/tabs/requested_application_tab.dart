@@ -1,3 +1,4 @@
+import 'package:charity_management_admin/common/functions/date_formatted.dart';
 import 'package:charity_management_admin/features/volunteer/domain/application_data_provider.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/pages/accepted_application_detail.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/pages/requested_application_detail.dart';
@@ -60,10 +61,10 @@ class RequestedApplicationsTab extends ConsumerWidget {
                                 fontStyle: FontStyle.italic),
                           ),
 
-                          // Text(
-                          //   formatDateTime(application.volunteerCreatedAt),
-                          //   style: const TextStyle(color: Colors.white),
-                          // ),
+                          Text(
+                            formatDateTime(application.volunteerCreatedAt),
+                            style: const TextStyle(color: Colors.white),
+                          ),
                         ],
                       ),
                       onTap: () {

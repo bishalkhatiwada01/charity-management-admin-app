@@ -20,7 +20,7 @@ class PostDataSource {
         'postContact': postContact,
         'postContent': postContent,
         'postImageUrl': postImageUrl,
-        'postCreatedAt': DateTime.now().microsecondsSinceEpoch.toString(),
+        'postCreatedAt': DateTime.now().toIso8601String(),
       });
 
       return 'Post Created';
@@ -64,7 +64,7 @@ class PostDataSource {
         'postContact': postDataModel.postContact,
         'postContent': postDataModel.postContent,
         'postImageUrl': postDataModel.postImageUrl,
-        'postCreatedAt': DateTime.now().microsecondsSinceEpoch.toString(),
+        'postCreatedAt': DateTime.now().toIso8601String(),
       });
 
       return 'Post Updated';

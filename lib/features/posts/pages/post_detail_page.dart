@@ -1,3 +1,4 @@
+import 'package:charity_management_admin/common/functions/date_formatted.dart';
 import 'package:charity_management_admin/features/posts/data/post_data/data_model.dart';
 import 'package:charity_management_admin/features/posts/services/edit_delete_logic.dart';
 import 'package:charity_management_admin/features/posts/pages/edit_post_page.dart';
@@ -112,9 +113,9 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                             ),
                           ),
                           TextSpan(
-                            text:
-                                // formatDate(widget.postModel.postCreatedAt),
-                                widget.postModel.postAddress,
+                            text: formatDateTime(
+                              widget.postModel.postCreatedAt,
+                            ),
                             style: TextStyle(
                               color:
                                   Theme.of(context).colorScheme.inversePrimary,

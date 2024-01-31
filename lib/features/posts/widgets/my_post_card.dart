@@ -1,3 +1,4 @@
+import 'package:charity_management_admin/common/functions/date_formatted.dart';
 import 'package:charity_management_admin/features/posts/data/post_data/data_model.dart';
 import 'package:charity_management_admin/features/posts/services/edit_delete_logic.dart';
 import 'package:charity_management_admin/features/posts/pages/post_detail_page.dart';
@@ -66,9 +67,10 @@ class _PostCardState extends ConsumerState<PostCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        widget.postData.postCreatedAt.toString(),
-                        // widget.postData.postAddress,
-                        style: const TextStyle(),
+                        formatDateTime(
+                          widget.postData.postCreatedAt,
+                        ),
+                        style: const TextStyle(color: Colors.white),
                       ),
                       IconButton(
                         onPressed: () {

@@ -11,7 +11,12 @@ class ApplicationsPage extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
+          iconTheme: IconThemeData(
+              color: Theme.of(context).colorScheme.inversePrimary),
+          backgroundColor: Theme.of(context).colorScheme.background,
+          centerTitle: true,
           title: Text(
             'APPLICATIONS',
             style: TextStyle(
@@ -19,7 +24,11 @@ class ApplicationsPage extends StatelessWidget {
               color: Theme.of(context).colorScheme.inversePrimary,
             ),
           ),
-          bottom: const TabBar(
+          bottom: TabBar(
+            labelColor: Theme.of(context).colorScheme.inversePrimary,
+            unselectedLabelColor: Theme.of(context).colorScheme.inversePrimary,
+            indicatorColor: Theme.of(context).colorScheme.inversePrimary,
+            indicatorWeight: 2.0,
             tabs: [
               Tab(text: 'Requests'),
               Tab(text: 'Accepted'),

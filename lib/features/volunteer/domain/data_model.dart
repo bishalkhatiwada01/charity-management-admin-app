@@ -9,10 +9,11 @@ class VolunteerApplication {
   final Volunteer volunteer;
   final Post post;
   String? volunteerQualification;
-  // final String volunteerCreatedAt;
+  final String volunteerCreatedAt;
   final String volunteerContactNum;
   List<String>? volunteerSkills;
   final String volunteerApplicationId;
+  final String? applicationAcceptedDate;
 
   VolunteerApplication({
     required this.userId,
@@ -25,10 +26,11 @@ class VolunteerApplication {
     required this.volunteerExperience,
     required this.volunteerAddress,
     this.volunteerQualification,
-    // required this.volunteerCreatedAt,
+      required this.volunteerCreatedAt,
     required this.volunteerApplicationId,
     required this.volunteerContactNum,
     this.volunteerSkills,
+      this.applicationAcceptedDate
   });
 
   factory VolunteerApplication.fromJson(Map<String, dynamic> json) {
@@ -44,7 +46,7 @@ class VolunteerApplication {
       volunteerAddress: json['volunteerAddress'],
       volunteer: json['volunteer'],
       post: json['posts'],
-      // volunteerCreatedAt: json['volunteerDate'],
+      volunteerCreatedAt: json['volunteerDate'],
       volunteerSkills: List<String>.from(json['volunteerSkills']),
       volunteerApplicationId: json['volunteerApplicationId'],
     );
@@ -64,6 +66,8 @@ class VolunteerApplication {
       'posts': post.toJson(),
       'volunteerSkills': volunteerSkills,
       'volunteerApplicationId': volunteerApplicationId,
+      'volunteerDate': volunteerCreatedAt,
+      'applicationAcceptedDate': applicationAcceptedDate,
     };
   }
 }
@@ -97,7 +101,7 @@ class Post {
   final String postAddress;
   final String postContact;
   final String postImageUrl;
-  // final String postDate;
+  final String postDate;
   final String? postId;
   Post({
     required this.postHeadline,
@@ -105,7 +109,7 @@ class Post {
     required this.postAddress,
     required this.postContact,
     required this.postImageUrl,
-    // required this.postDate,
+    required this.postDate,
     required this.postId,
   });
 
@@ -128,7 +132,7 @@ class Post {
       postImageUrl: json['postImageUrl'],
       postContact: json['postContact'],
       postId: json['postId'],
-      // postDate: json['postCreatedAt'],
+      postDate: json['postCreatedAt'],
     );
   }
 }
