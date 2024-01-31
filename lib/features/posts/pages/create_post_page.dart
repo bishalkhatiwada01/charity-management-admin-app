@@ -8,6 +8,7 @@ import 'package:charity_management_admin/features/posts/widgets/my_post_textfiel
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chips_input/flutter_chips_input.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -30,6 +31,13 @@ class _CreatePostPageState extends State<CreatePostPage> {
   final TextEditingController postContactController = TextEditingController();
   final TextEditingController postContentController = TextEditingController();
   final TextEditingController postImageUrlController = TextEditingController();
+
+  final TextEditingController volunteerSkillsController =
+      TextEditingController();
+  final TextEditingController volunteerQualificationsController =
+      TextEditingController();
+  final TextEditingController volunteerInterestsController =
+      TextEditingController();
 
   String? _validateTextField(String? value) {
     if (value == null || value.isEmpty) {
@@ -58,9 +66,15 @@ class _CreatePostPageState extends State<CreatePostPage> {
     }
   }
 
+  List<String> volunteerSkills = [];
+  List<String> volunteerQualifications = [];
+  List<String> volunteerInterests = [];
+  List<String> allSkills = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
         foregroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -104,6 +118,65 @@ class _CreatePostPageState extends State<CreatePostPage> {
                   maxlines: 1,
                   controller: postContactController,
                   labelText: 'Contact No.',
+                  obscureText: false,
+                ),
+                SizedBox(height: 10.h),
+                MyPostTextField(
+                  maxlines: 1,
+                  controller: volunteerSkillsController,
+                  labelText: 'Skills',
+                  obscureText: false,
+                ),
+                // ChipsInput<String>(
+                //   decoration: InputDecoration(labelText: "Volunteer Skills"),
+                //   onChanged: (value) {
+                //     volunteerSkills = List<String>.from(value);
+                //   },
+                //   findSuggestions: (String query) {
+                //     if (query.isNotEmpty) {
+                //       var lowercaseQuery = query.toLowerCase();
+                //       return allSkills.where((skill) {
+                //         return skill
+                //             .toLowerCase()
+                //             .contains(query.toLowerCase());
+                //       }).toList(growable: false)
+                //         ..sort((a, b) => a
+                //             .toLowerCase()
+                //             .indexOf(lowercaseQuery)
+                //             .compareTo(
+                //                 b.toLowerCase().indexOf(lowercaseQuery)));
+                //     } else {
+                //       return const <String>[];
+                //     }
+                //   },
+                //   chipBuilder: (context, state, String value) {
+                //     return InputChip(
+                //       key: ObjectKey(value),
+                //       label: Text(value),
+                //       onDeleted: () => state.deleteChip(value),
+                //       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                //     );
+                //   },
+                //   suggestionBuilder: (context, state, String value) {
+                //     return ListTile(
+                //       key: ObjectKey(value),
+                //       title: Text(value),
+                //       onTap: () => state.selectSuggestion(value),
+                //     );
+                //   },
+                // ),
+                SizedBox(height: 10.h),
+                MyPostTextField(
+                  maxlines: 1,
+                  controller: volunteerQualificationsController,
+                  labelText: 'Qualifications',
+                  obscureText: false,
+                ),
+                SizedBox(height: 10.h),
+                MyPostTextField(
+                  maxlines: 1,
+                  controller: volunteerInterestsController,
+                  labelText: 'Interests',
                   obscureText: false,
                 ),
                 SizedBox(height: 10.h),
