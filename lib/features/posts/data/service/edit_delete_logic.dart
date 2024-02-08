@@ -1,4 +1,4 @@
-import 'package:charity_management_admin/features/posts/data/post_data/data_model.dart';
+import 'package:charity_management_admin/features/posts/domain/data_model.dart';
 import 'package:charity_management_admin/features/posts/pages/edit_post_page.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';

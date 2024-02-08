@@ -1,17 +1,20 @@
 import 'package:charity_management_admin/common/widgets/my_button.dart';
 import 'package:charity_management_admin/common/widgets/my_textfield.dart';
+import 'package:charity_management_admin/features/auth/data/auth_service.dart';
 import 'package:charity_management_admin/features/auth/pages/login_page.dart';
 import 'package:charity_management_admin/features/dashbord/views/home_page.dart';
 import 'package:charity_management_admin/helper/helper_functions.dart';
+import 'package:charity_management_admin/shared/status_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({
     super.key,
-    required this.onTap,
+    this.onTap,
   });
 
   final void Function()? onTap;
@@ -21,67 +24,24 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+
+  final AuthService _authService = AuthService();
   // text controller
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPwController = TextEditingController();
 
-  // login method
-  void registerUser() async {
-    // show loading circle
-    showDialog(
-      context: context,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
+  Future<void> _register() async {
+    await _authService.register(
+      emailController.text,
+      passwordController.text,
+      usernameController.text,
     );
-
-    // make sure password match
-    if (passwordController.text != confirmPwController.text) {
-      Navigator.pop(context);
-
-      // show error message to user
-      displayMessageToUser('Password dont match', context);
-    }
-    // if the password match
-    else {
-      // try creating the user
-      try {
-        // create the user
-        UserCredential? userCredential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-
-        // create the user document and add to firestore
-        createUserDocument(userCredential);
-        // pop loading circle
-        if (context.mounted) Navigator.pop(context);
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => HomePage()));
-      } on FirebaseAuthException catch (e) {
-        // pop loading circle
-        Navigator.pop(context);
-
-        // display error message
-        displayMessageToUser(e.code, context);
-      }
-    }
-  }
-
-  // create a user document and collect them in firestore
-  Future<void> createUserDocument(UserCredential? userCredential) async {
-    if (userCredential != null && userCredential.user != null) {
-      await FirebaseFirestore.instance
-          .collection("admin_users")
-          .doc(userCredential.user!.uid)
-          .set({
-        'email': userCredential.user!.email,
-        'username': usernameController.text,
-      });
-    }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const StatusPage()),
+    );
   }
 
   @override
@@ -169,7 +129,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 // register button
                 MyButton(
                   text: 'Register',
-                  onTap: registerUser,
+                  onTap: _register,
                 ),
                 SizedBox(height: 25.h),
                 Row(

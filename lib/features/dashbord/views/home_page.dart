@@ -1,7 +1,8 @@
 import 'package:charity_management_admin/common/widgets/my_drawer.dart';
+import 'package:charity_management_admin/features/posts/data/provider/post_porvider.dart';
 import 'package:charity_management_admin/features/posts/pages/create_post_page.dart';
-import 'package:charity_management_admin/features/posts/data/post_data/post_data_service.dart';
-import 'package:charity_management_admin/features/posts/services/edit_delete_logic.dart';
+import 'package:charity_management_admin/features/posts/data/service/post_service.dart';
+import 'package:charity_management_admin/features/posts/data/service/edit_delete_logic.dart';
 import 'package:charity_management_admin/features/posts/widgets/my_post_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

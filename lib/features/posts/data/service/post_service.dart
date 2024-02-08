@@ -1,9 +1,13 @@
-import 'package:charity_management_admin/features/posts/data/post_data/data_model.dart';
+import 'dart:convert';
+
+import 'package:charity_management_admin/features/posts/domain/data_model.dart';
 import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class PostDataSource {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final postDb = FirebaseFirestore.instance.collection('posts');
 
   Future<String> createPost({
@@ -22,12 +26,66 @@ class PostDataSource {
         'postImageUrl': postImageUrl,
         'postCreatedAt': DateTime.now().toIso8601String(),
       });
+      // await sendNotificationToSubscribedUsers(postHeadline, postContent);
 
       return 'Post Created';
     } on FirebaseException catch (err) {
       return '${err.message}';
     }
   }
+
+  // Future<void> sendNotificationToSubscribedUsers(
+  //     String title, String message) async {
+  //   // Message to send
+  //   final Map<String, dynamic> notification = {
+  //     'notification': {
+  //       'title': title,
+  //       'body': message,
+  //     },
+  //     'to': '/topics/all_users', // Topic subscribed by all users
+  //   };
+
+  //   // Send message
+  //   try {
+  //     await http.post(
+  //       Uri.parse('https://fcm.googleapis.com/fcm/send'),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json',
+  //         'Authorization': 'key=YOUR_SERVER_KEY',
+  //       },
+  //       body: jsonEncode(notification),
+  //     );
+  //   } catch (e) {
+  //     print('Error sending notification: $e');
+  //   }
+  // }
+
+  // // Function to send notification to subscribed users
+  // Future<void> sendNotificationToSubscribedUsers(
+  //     String title, String message) async {
+  //   // Message to send
+  //   final Map<String, dynamic> notification = {
+  //     'notification': {
+  //       'title': title,
+  //       'body': message,
+  //     },
+  //     'to': '/topics/all_users', // Topic subscribed by all users
+  //   };
+
+  //   // Send message
+  //   try {
+  //     await http.post(
+  //       Uri.parse('https://fcm.googleapis.com/fcm/send'),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json',
+  //         'Authorization': 'key=YOUR_SERVER_KEY',
+  //       },
+  //       body: jsonEncode(notification),
+  //     );
+  //   } catch (e) {
+  //     print('Error sending notification: $e');
+  //   }
+  // }
 
   Future<List<PostDataModel>> getAllPost() async {
     try {

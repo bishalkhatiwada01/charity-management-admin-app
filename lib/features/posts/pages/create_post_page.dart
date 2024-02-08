@@ -1,14 +1,16 @@
+
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
 import 'package:charity_management_admin/common/widgets/my_button.dart';
 import 'package:charity_management_admin/features/dashbord/views/home_page.dart';
-import 'package:charity_management_admin/features/posts/services/post_service.dart';
+
+import 'package:charity_management_admin/features/posts/data/service/post_service.dart';
 import 'package:charity_management_admin/features/posts/widgets/my_post_textfield.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chips_input/flutter_chips_input.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -31,6 +33,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
   final TextEditingController postContactController = TextEditingController();
   final TextEditingController postContentController = TextEditingController();
   final TextEditingController postImageUrlController = TextEditingController();
+  final TextEditingController interestsController = TextEditingController();
 
   final TextEditingController volunteerSkillsController =
       TextEditingController();
@@ -44,6 +47,28 @@ class _CreatePostPageState extends State<CreatePostPage> {
       return 'This field is required';
     }
     return null;
+  }
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.requestPermission();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // Handle notification when app is in foreground
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
+      if (message.notification != null) {
+        print('Message also contained a notification: ${message.notification}');
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      // Handle notification when app is opened from a terminated state
+      print('A new onMessageOpenedApp event was published!');
+      print('Message data: ${message.data}');
+    });
   }
 
   void _submitForm() async {
@@ -127,44 +152,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
                   labelText: 'Skills',
                   obscureText: false,
                 ),
-                // ChipsInput<String>(
-                //   decoration: InputDecoration(labelText: "Volunteer Skills"),
-                //   onChanged: (value) {
-                //     volunteerSkills = List<String>.from(value);
-                //   },
-                //   findSuggestions: (String query) {
-                //     if (query.isNotEmpty) {
-                //       var lowercaseQuery = query.toLowerCase();
-                //       return allSkills.where((skill) {
-                //         return skill
-                //             .toLowerCase()
-                //             .contains(query.toLowerCase());
-                //       }).toList(growable: false)
-                //         ..sort((a, b) => a
-                //             .toLowerCase()
-                //             .indexOf(lowercaseQuery)
-                //             .compareTo(
-                //                 b.toLowerCase().indexOf(lowercaseQuery)));
-                //     } else {
-                //       return const <String>[];
-                //     }
-                //   },
-                //   chipBuilder: (context, state, String value) {
-                //     return InputChip(
-                //       key: ObjectKey(value),
-                //       label: Text(value),
-                //       onDeleted: () => state.deleteChip(value),
-                //       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                //     );
-                //   },
-                //   suggestionBuilder: (context, state, String value) {
-                //     return ListTile(
-                //       key: ObjectKey(value),
-                //       title: Text(value),
-                //       onTap: () => state.selectSuggestion(value),
-                //     );
-                //   },
-                // ),
                 SizedBox(height: 10.h),
                 MyPostTextField(
                   maxlines: 1,
@@ -239,6 +226,10 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 MyButton(
                   text: 'Submit',
                   onTap: _submitForm,
+                  // onTap: () {
+                  //   // Navigator.of(context).pushReplacement(
+                  //   //     MaterialPageRoute(builder: (context) => DemoPage()));
+                  // },
                 ),
               ],
             ),

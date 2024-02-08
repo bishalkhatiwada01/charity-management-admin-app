@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class NotificationPage extends StatelessWidget {
@@ -6,9 +5,12 @@ class NotificationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         leading: const Icon(Icons.arrow_back_ios),
+      ),
+      body: Column(
+        children: [],
       ),
     );
   }

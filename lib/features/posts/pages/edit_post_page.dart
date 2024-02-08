@@ -194,8 +194,8 @@
 import 'dart:io';
 
 import 'package:charity_management_admin/common/widgets/my_button.dart';
-import 'package:charity_management_admin/features/posts/data/post_data/data_model.dart';
-import 'package:charity_management_admin/features/posts/services/post_service.dart';
+import 'package:charity_management_admin/features/posts/domain/data_model.dart';
+import 'package:charity_management_admin/features/posts/data/service/post_service.dart';
 import 'package:charity_management_admin/features/posts/widgets/my_post_textfield.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';

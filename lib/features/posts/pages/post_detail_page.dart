@@ -1,6 +1,6 @@
 import 'package:charity_management_admin/common/functions/date_formatted.dart';
-import 'package:charity_management_admin/features/posts/data/post_data/data_model.dart';
-import 'package:charity_management_admin/features/posts/services/edit_delete_logic.dart';
+import 'package:charity_management_admin/features/posts/domain/data_model.dart';
+import 'package:charity_management_admin/features/posts/data/service/edit_delete_logic.dart';
 import 'package:charity_management_admin/features/posts/pages/edit_post_page.dart';
 import 'package:charity_management_admin/features/posts/widgets/edit_delete_button.dart';
 import 'package:flutter/material.dart';
