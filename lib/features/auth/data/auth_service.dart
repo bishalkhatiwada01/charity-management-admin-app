@@ -48,6 +48,8 @@ class AuthService {
         'email': email.trim(),
         'username': username.trim(),
         'token': token,
+      }).then((value) async {
+        await FirebaseMessaging.instance.subscribeToTopic('posts');
       });
     } catch (e) {
       if (kDebugMode) {

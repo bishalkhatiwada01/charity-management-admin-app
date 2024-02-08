@@ -29,6 +29,14 @@ Future<void> handleBackgroundMessage(RemoteMessage? message) async {
 class FirebaseApi {
   final _firebaseMessaging = FirebaseMessaging.instance;
 
+  Future<String> createTopic() async {
+    final response =
+        await _firebaseMessaging.subscribeToTopic('posts').then((value) {
+      return 'Subscribed to posts topic';
+    });
+    return response;
+  }
+
   final _androidChannel = const AndroidNotificationChannel(
     'high_importance_channel',
     'High Importance Notifications',

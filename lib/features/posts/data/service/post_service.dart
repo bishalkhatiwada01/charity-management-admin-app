@@ -1,6 +1,9 @@
+import 'package:charity_management_admin/api/api_keys.dart';
+import 'package:charity_management_admin/api/end_points.dart';
 import 'package:charity_management_admin/features/posts/domain/data_model.dart';
 import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class PostDataSource {
@@ -30,7 +33,7 @@ class PostDataSource {
         'qualifications': qualifications,
         'postCreatedAt': DateTime.now().toIso8601String(),
       });
-      // await sendNotificationToSubscribedUsers(postHeadline, postContent);
+      await sendNotificationToSubscribedUsers(postHeadline, postContent);
 
       return 'Post Created';
     } on FirebaseException catch (err) {
@@ -38,58 +41,31 @@ class PostDataSource {
     }
   }
 
-  // Future<void> sendNotificationToSubscribedUsers(
-  //     String title, String message) async {
-  //   // Message to send
-  //   final Map<String, dynamic> notification = {
-  //     'notification': {
-  //       'title': title,
-  //       'body': message,
-  //     },
-  //     'to': '/topics/all_users', // Topic subscribed by all users
-  //   };
-
-  //   // Send message
-  //   try {
-  //     await http.post(
-  //       Uri.parse('https://fcm.googleapis.com/fcm/send'),
-  //       headers: <String, String>{
-  //         'Content-Type': 'application/json',
-  //         'Authorization': 'key=YOUR_SERVER_KEY',
-  //       },
-  //       body: jsonEncode(notification),
-  //     );
-  //   } catch (e) {
-  //     print('Error sending notification: $e');
-  //   }
-  // }
-
-  // // Function to send notification to subscribed users
-  // Future<void> sendNotificationToSubscribedUsers(
-  //     String title, String message) async {
-  //   // Message to send
-  //   final Map<String, dynamic> notification = {
-  //     'notification': {
-  //       'title': title,
-  //       'body': message,
-  //     },
-  //     'to': '/topics/all_users', // Topic subscribed by all users
-  //   };
-
-  //   // Send message
-  //   try {
-  //     await http.post(
-  //       Uri.parse('https://fcm.googleapis.com/fcm/send'),
-  //       headers: <String, String>{
-  //         'Content-Type': 'application/json',
-  //         'Authorization': 'key=YOUR_SERVER_KEY',
-  //       },
-  //       body: jsonEncode(notification),
-  //     );
-  //   } catch (e) {
-  //     print('Error sending notification: $e');
-  //   }
-  // }
+  Future<void> sendNotificationToSubscribedUsers(
+      String title, String message) async {
+    try {
+      final dio = Dio(BaseOptions(headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$serverKey',
+      }));
+      await dio.post(
+        ApiEndPoints.baseNotificationUrl,
+        data: {
+          "to": "/topics/posts",
+          "notification": {
+            "title": "New Post Created!!",
+            "body": title,
+          },
+          "data": {
+            "type": 'post',
+            "story_id": "story_12345",
+          },
+        },
+      );
+    } catch (e) {
+      print('Error sending notification: $e');
+    }
+  }
 
   Future<List<PostDataModel>> getAllPost() async {
     try {

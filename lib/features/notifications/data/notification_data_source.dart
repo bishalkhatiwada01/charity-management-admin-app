@@ -1,4 +1,7 @@
+import 'package:charity_management_admin/api/api_keys.dart';
+import 'package:charity_management_admin/api/end_points.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class NotificationDataSource {
@@ -70,6 +73,31 @@ class NotificationModel {
         senderId: json['senderId'] as String,
         receiverId: json['receiverId'] as String,
         isRead: json['isRead'] as bool);
+  }
+  Future<void> sendNotification(
+      {required String token,
+      required String title,
+      required String message,
+      Map<String, dynamic>? notificationData}) async {
+    final dio = Dio(BaseOptions(
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$serverKey',
+      },
+      baseUrl: ApiEndPoints.baseNotificationUrl,
+    ));
+    try {
+      await dio.post(ApiEndPoints.baseNotificationUrl, data: {
+        "to": "/topics/posts",
+        "notification": {
+          "title": "Breaking News",
+          "body": "New news story available."
+        },
+        "data": {"story_id": "story_12345"}
+      });
+    } on FirebaseException catch (err) {
+      throw Exception(err.message);
+    }
   }
 
   Map<String, dynamic> toMap() {

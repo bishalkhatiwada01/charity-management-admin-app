@@ -1,5 +1,5 @@
 import 'package:charity_management_admin/common/widgets/my_drawer.dart';
-import 'package:charity_management_admin/features/posts/data/provider/post_porvider.dart';
+import 'package:charity_management_admin/features/posts/provider/post_porvider.dart';
 import 'package:charity_management_admin/features/posts/pages/create_post_page.dart';
 import 'package:charity_management_admin/features/posts/widgets/my_post_card.dart';
 import 'package:flutter/material.dart';
