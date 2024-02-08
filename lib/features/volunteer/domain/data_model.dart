@@ -8,30 +8,29 @@ class VolunteerApplication {
   final String volunteerAddress;
   final Volunteer volunteer;
   final Post post;
-  String? volunteerQualification;
+  List<String>? volunteerQualification;
   final String volunteerCreatedAt;
   final String volunteerContactNum;
   List<String>? volunteerSkills;
   final String volunteerApplicationId;
   final String? applicationAcceptedDate;
 
-  VolunteerApplication({
-    required this.userId,
-    required this.postId,
-    required this.volunteerName,
-    required this.volunteer,
-    required this.post,
-    required this.volunteerEmail,
-    this.volunteerInterests,
-    required this.volunteerExperience,
-    required this.volunteerAddress,
-    this.volunteerQualification,
+  VolunteerApplication(
+      {required this.userId,
+      required this.postId,
+      required this.volunteerName,
+      required this.volunteer,
+      required this.post,
+      required this.volunteerEmail,
+      this.volunteerInterests,
+      required this.volunteerExperience,
+      required this.volunteerAddress,
+      this.volunteerQualification,
       required this.volunteerCreatedAt,
-    required this.volunteerApplicationId,
-    required this.volunteerContactNum,
-    this.volunteerSkills,
-      this.applicationAcceptedDate
-  });
+      required this.volunteerApplicationId,
+      required this.volunteerContactNum,
+      this.volunteerSkills,
+      required this.applicationAcceptedDate});
 
   factory VolunteerApplication.fromJson(Map<String, dynamic> json) {
     return VolunteerApplication(
@@ -42,13 +41,14 @@ class VolunteerApplication {
       volunteerContactNum: json['volunteerContactNumber'],
       volunteerInterests: List<String>.from(json['volunteerInterests']),
       volunteerExperience: json['volunteerExperience'],
-      volunteerQualification: json['volunteerQualification'],
+      volunteerQualification: List<String>.from(json['volunteerQualification']),
       volunteerAddress: json['volunteerAddress'],
       volunteer: json['volunteer'],
       post: json['posts'],
       volunteerCreatedAt: json['volunteerDate'],
       volunteerSkills: List<String>.from(json['volunteerSkills']),
       volunteerApplicationId: json['volunteerApplicationId'],
+      applicationAcceptedDate: json['applicationAcceptedDate'],
     );
   }
   Map<String, dynamic> toJson() {
@@ -103,6 +103,10 @@ class Post {
   final String postImageUrl;
   final String postDate;
   final String? postId;
+  final String khaltiNo;
+  List<String> skills;
+  List<String> interests;
+  List<String> qualifications;
   Post({
     required this.postHeadline,
     required this.postContent,
@@ -111,6 +115,10 @@ class Post {
     required this.postImageUrl,
     required this.postDate,
     required this.postId,
+    required this.khaltiNo,
+    required this.skills,
+    required this.interests,
+    required this.qualifications,
   });
 
   Map<String, dynamic> toJson() {
@@ -121,6 +129,11 @@ class Post {
       'postContact': postContact,
       'postImageUrl': postImageUrl,
       'postId': postId,
+      'postCreatedAt': postDate,
+      'khaltiNo': khaltiNo,
+      'skills': skills,
+      'interests': interests,
+      'qualifications': qualifications,
     };
   }
 
@@ -133,6 +146,10 @@ class Post {
       postContact: json['postContact'],
       postId: json['postId'],
       postDate: json['postCreatedAt'],
+      khaltiNo: json['khaltiNo'],
+      skills: List<String>.from(json['skills']),
+      interests: List<String>.from(json['interests']),
+      qualifications: List<String>.from(json['qualifications']),
     );
   }
 }

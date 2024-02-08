@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously, duplicate_ignore
-
 import 'package:charity_management_admin/features/volunteer/data/application_service.dart';
 import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/widgets/accept_reject_button.dart';
@@ -86,7 +85,7 @@ class _RequestedApplicationDetailPageState
                     ),
                     SizedBox(height: 8.h),
                     LabelValueWidget(
-                      label: 'email',
+                      label: 'Email',
                       value: applicationData.volunteerEmail,
                     ),
                     const SizedBox(height: 8.0),
@@ -106,45 +105,71 @@ class _RequestedApplicationDetailPageState
                     ),
                     const SizedBox(height: 8.0),
                     LabelValueWidget(
-                      label: 'Qualification',
-                      value: applicationData.volunteerQualification!,
+                      label: 'Interest',
+                      value: applicationData.volunteerInterests!.join(', '),
                     ),
                     const SizedBox(height: 8.0),
                     LabelValueWidget(
-                        label: 'Skills',
-                        value: applicationData.volunteerSkills!.join(', ')),
-                    LabelValueWidget(
-                        label: 'Interest',
-                        value: applicationData.volunteerInterests!.join(', ')),
+                      label: 'Skills',
+                      value: applicationData.volunteerSkills!.join(', '),
+                    ),
                     const SizedBox(height: 8.0),
-                    SizedBox(height: 20.h),
-                    Row(
-                      children: [
-                        Text(
-                          'Post Details: ',
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.secondary,
-                          ),
-                          child: Text(
-                            'View Post',
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .inversePrimary),
-                          ),
-                        ),
-                      ],
+                    LabelValueWidget(
+                      label: 'Qualification',
+                      value: applicationData.volunteerQualification!.join(', '),
+                    ),
+                    Divider(),
+                    Text(
+                      'Post Details: ',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 5.h),
+                    LabelValueWidget(
+                      label: 'Headline',
+                      value: applicationData.post.postHeadline,
+                    ),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Description',
+                      value: applicationData.post.postContent,
+                    ),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Location',
+                      value: applicationData.post.postAddress,
+                    ),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Posted Date',
+                      value: applicationData.post.postDate,
+                    ),
+                    const SizedBox(height: 8.0),
+                    Divider(),
+                    Text(
+                      'Needed:',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    LabelValueWidget(
+                      label: 'Interest',
+                      value: applicationData.post.interests.join(', '),
+                    ),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Skills',
+                      value: applicationData.post.skills.join(', '),
+                    ),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Qualification',
+                      value: applicationData.post.qualifications.join(', '),
                     ),
                   ],
                 ),

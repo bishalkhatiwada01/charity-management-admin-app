@@ -14,7 +14,6 @@ class AcceptedApplicationDetailPage extends ConsumerStatefulWidget {
       _RequestedApplicationDetailPageState();
 }
 
-
 class _RequestedApplicationDetailPageState
     extends ConsumerState<AcceptedApplicationDetailPage> {
   @override
@@ -102,7 +101,7 @@ class _RequestedApplicationDetailPageState
                     const SizedBox(height: 8.0),
                     LabelValueWidget(
                       label: 'Qualification',
-                      value: applicationData.volunteerQualification!,
+                      value: applicationData.volunteerQualification!.join(', '),
                     ),
                     const SizedBox(height: 8.0),
                     LabelValueWidget(
@@ -112,35 +111,60 @@ class _RequestedApplicationDetailPageState
                         label: 'Interest',
                         value: applicationData.volunteerInterests!.join(', ')),
                     const SizedBox(height: 8.0),
-                    SizedBox(height: 20.h),
-                    Row(
-                      children: [
-                        Text(
-                          'Post Details: ',
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.secondary,
-                          ),
-                          child: Text(
-                            'View Post',
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .inversePrimary),
-                          ),
-                        ),
-                      ],
+                    Divider(),
+                    Text(
+                      'Post Details: ',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                    SizedBox(height: 5.h),
+                    LabelValueWidget(
+                      label: 'Headline',
+                      value: applicationData.post.postHeadline,
+                    ),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Description',
+                      value: applicationData.post.postContent,
+                    ),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Location',
+                      value: applicationData.post.postAddress,
+                    ),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Posted Date',
+                      value: applicationData.post.postDate,
+                    ),
+                    const SizedBox(height: 8.0),
+                    Divider(),
+                    Text(
+                      'Needed:',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    LabelValueWidget(
+                      label: 'Interest',
+                      value: applicationData.post.interests.join(', '),
+                    ),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Skills',
+                      value: applicationData.post.skills.join(', '),
+                    ),
+                    const SizedBox(height: 8.0),
+                    LabelValueWidget(
+                      label: 'Qualification',
+                      value: applicationData.post.qualifications.join(', '),
+                    ),
+                    SizedBox(height: 20.h),
                   ],
                 ),
               ),

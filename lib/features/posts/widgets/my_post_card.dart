@@ -1,5 +1,5 @@
 import 'package:charity_management_admin/common/functions/date_formatted.dart';
-import 'package:charity_management_admin/features/posts/provider/post_porvider.dart';
+import 'package:charity_management_admin/features/posts/data/provider/post_porvider.dart';
 import 'package:charity_management_admin/features/posts/domain/data_model.dart';
 import 'package:charity_management_admin/features/posts/data/service/edit_delete_logic.dart';
 import 'package:charity_management_admin/features/posts/pages/post_detail_page.dart';

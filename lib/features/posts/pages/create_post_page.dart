@@ -3,7 +3,7 @@
 import 'dart:io';
 import 'package:charity_management_admin/common/widgets/my_button.dart';
 import 'package:charity_management_admin/features/dashbord/views/home_page.dart';
-import 'package:charity_management_admin/features/posts/provider/post_porvider.dart';
+import 'package:charity_management_admin/features/posts/data/provider/post_porvider.dart';
 
 import 'package:charity_management_admin/features/posts/data/service/post_service.dart';
 import 'package:charity_management_admin/features/posts/widgets/my_post_textfield.dart';
@@ -84,7 +84,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
       ref.refresh(postProvider);
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Post Updated')),
+        const SnackBar(content: Text('Post Created')),
       );
       Navigator.pop(context);
 

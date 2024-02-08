@@ -103,6 +103,10 @@ class PostDataSource {
         'postContent': postDataModel.postContent,
         'postImageUrl': postDataModel.postImageUrl,
         'postCreatedAt': DateTime.now().toIso8601String(),
+        'khaltiNo': postDataModel.khaltiNo,
+        'skills': postDataModel.skills,
+        'interests': postDataModel.interests,
+        'qualifications': postDataModel.qualifications,
       });
 
       return 'Post Updated';

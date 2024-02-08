@@ -3,7 +3,7 @@
 import 'dart:io';
 
 import 'package:charity_management_admin/common/widgets/my_button.dart';
-import 'package:charity_management_admin/features/posts/provider/post_porvider.dart';
+import 'package:charity_management_admin/features/posts/data/provider/post_porvider.dart';
 import 'package:charity_management_admin/features/posts/domain/data_model.dart';
 import 'package:charity_management_admin/features/posts/data/service/post_service.dart';
 import 'package:charity_management_admin/features/posts/widgets/my_post_textfield.dart';
