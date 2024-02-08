@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:charity_management_admin/features/auth/pages/login_page.dart';
 import 'package:charity_management_admin/features/auth/pages/register_page.dart';
 import 'package:charity_management_admin/features/dashbord/views/home_page.dart';

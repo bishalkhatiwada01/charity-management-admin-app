@@ -1,3 +1,5 @@
+// ignore_for_file: unused_result, unnecessary_null_comparison, use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:charity_management_admin/common/widgets/my_button.dart';
@@ -232,7 +234,7 @@ class EditPostPageState extends ConsumerState<EditPostPage> {
                     ref.refresh(postProvider);
 
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Post Updated')),
+                      const SnackBar(content: Text('Post Updated')),
                     );
                     Navigator.pop(context);
                     Navigator.pop(context);

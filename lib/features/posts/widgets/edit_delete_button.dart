@@ -18,19 +18,19 @@ class EditDeleteButtons extends StatelessWidget {
         ElevatedButton(
           onPressed: onEditPressed,
           style: ElevatedButton.styleFrom(
-            primary: Theme.of(context).colorScheme.inversePrimary,
-            onPrimary: Theme.of(context).colorScheme.primary,
+            foregroundColor: Theme.of(context).colorScheme.primary,
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           ),
-          child: Text('Edit'),
+          child: const Text('Edit'),
         ),
-        SizedBox(width: 16.0),
+        const SizedBox(width: 16.0),
         ElevatedButton(
           onPressed: onDeletePressed,
           style: ElevatedButton.styleFrom(
-            primary: Theme.of(context).colorScheme.error,
-            onPrimary: Theme.of(context).colorScheme.onError,
+            foregroundColor: Theme.of(context).colorScheme.onError,
+            backgroundColor: Theme.of(context).colorScheme.error,
           ),
-          child: Text('Delete'),
+          child: const Text('Delete'),
         ),
       ],
     );

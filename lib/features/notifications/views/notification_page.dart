@@ -9,7 +9,7 @@ class NotificationPage extends StatelessWidget {
       appBar: AppBar(
         leading: const Icon(Icons.arrow_back_ios),
       ),
-      body: Column(
+      body: const Column(
         children: [],
       ),
     );

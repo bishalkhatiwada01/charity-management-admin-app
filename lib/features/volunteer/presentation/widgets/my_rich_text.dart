@@ -4,7 +4,8 @@ class LabelValueWidget extends StatelessWidget {
   final String label;
   final String value;
 
-  LabelValueWidget({
+  const LabelValueWidget({
+    super.key, 
     required this.label,
     required this.value,
   });

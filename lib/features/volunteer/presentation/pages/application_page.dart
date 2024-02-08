@@ -29,13 +29,13 @@ class ApplicationsPage extends StatelessWidget {
             unselectedLabelColor: Theme.of(context).colorScheme.inversePrimary,
             indicatorColor: Theme.of(context).colorScheme.inversePrimary,
             indicatorWeight: 2.0,
-            tabs: [
+            tabs: const [
               Tab(text: 'Requests'),
               Tab(text: 'Accepted'),
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             RequestedApplicationsTab(),
             AcceptedApplicationsTab(),

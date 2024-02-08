@@ -30,10 +30,6 @@ class _LoginPageState extends State<LoginPage> {
 
 
   Future<void> _login() async {
-    void showError(BuildContext context, String message) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(message)));
-    }
 
     await _authService.login(
       emailController.text,

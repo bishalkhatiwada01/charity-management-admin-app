@@ -1,8 +1,9 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unused_import, unused_result
 
 import 'dart:io';
 import 'package:charity_management_admin/common/widgets/my_button.dart';
 import 'package:charity_management_admin/features/dashbord/views/home_page.dart';
+import 'package:charity_management_admin/features/posts/data/provider/post_porvider.dart';
 
 import 'package:charity_management_admin/features/posts/data/service/post_service.dart';
 import 'package:charity_management_admin/features/posts/widgets/my_post_textfield.dart';
@@ -10,17 +11,18 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
-class CreatePostPage extends StatefulWidget {
+class CreatePostPage extends ConsumerStatefulWidget {
   const CreatePostPage({super.key});
 
   @override
-  State<CreatePostPage> createState() => _CreatePostPageState();
+  ConsumerState<CreatePostPage> createState() => _CreatePostPageState();
 }
 
-class _CreatePostPageState extends State<CreatePostPage> {
+class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   final _formKey = GlobalKey<FormState>();
   final _postService = PostDataSource();
 
@@ -55,17 +57,12 @@ class _CreatePostPageState extends State<CreatePostPage> {
     _firebaseMessaging.requestPermission();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       // Handle notification when app is in foreground
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
       if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
       }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       // Handle notification when app is opened from a terminated state
-      print('A new onMessageOpenedApp event was published!');
-      print('Message data: ${message.data}');
     });
   }
 
@@ -84,12 +81,16 @@ class _CreatePostPageState extends State<CreatePostPage> {
         interests: volunteerIntersController.text.trim().split(','),
         qualifications: volunteerQualifiController.text.trim().split(','),
       );
+      ref.refresh(postProvider);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Post Updated')),
+      );
+      Navigator.pop(context);
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(result)),
       );
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomePage()));
     }
   }
 
@@ -117,6 +118,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
             child: Column(
               children: [
                 MyPostTextField(
+                  
                   validator: _validateTextField,
                   maxlines: 1,
                   controller: postHeadlineController,

@@ -17,12 +17,9 @@ class MyPostTextField extends StatelessWidget {
     required this.validator,
   });
 
-
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-
       cursorColor: Theme.of(context).colorScheme.inversePrimary,
       maxLines: maxlines,
       controller: controller,
@@ -31,9 +28,12 @@ class MyPostTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.sp),
         ),
         labelText: labelText,
+        labelStyle: TextStyle(
+          color: Theme.of(context).colorScheme.inversePrimary,
+        ),
       ),
       obscureText: obscureText,
-      validator: validator, 
+      validator: validator,
     );
   }
 }

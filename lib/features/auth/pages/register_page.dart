@@ -2,12 +2,7 @@ import 'package:charity_management_admin/common/widgets/my_button.dart';
 import 'package:charity_management_admin/common/widgets/my_textfield.dart';
 import 'package:charity_management_admin/features/auth/data/auth_service.dart';
 import 'package:charity_management_admin/features/auth/pages/login_page.dart';
-import 'package:charity_management_admin/features/dashbord/views/home_page.dart';
-import 'package:charity_management_admin/helper/helper_functions.dart';
 import 'package:charity_management_admin/shared/status_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -38,6 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
       passwordController.text,
       usernameController.text,
     );
+    // ignore: use_build_context_synchronously
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const StatusPage()),

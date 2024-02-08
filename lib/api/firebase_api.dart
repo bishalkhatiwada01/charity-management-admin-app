@@ -4,6 +4,7 @@ import 'package:charity_management_admin/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage? message) async {
@@ -110,7 +111,9 @@ class FirebaseApi {
     );
     final token = await _firebaseMessaging.getToken();
     if (token == null) return;
-    print('Token: $token');
+    if (kDebugMode) {
+      print('Token: $token');
+    }
     initPushNotification();
     initLocalNotifications();
   }

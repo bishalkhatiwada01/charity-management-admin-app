@@ -23,7 +23,7 @@ class DonationHistoryPage extends StatelessWidget {
               color: Theme.of(context).colorScheme.inversePrimary),
         ),
         backgroundColor: Theme.of(context).colorScheme.background,
-        body: Column(
+        body: const Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             DonationHistoryCard(

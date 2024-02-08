@@ -266,7 +266,8 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                                           ),
                                           TextSpan(
                                             text:
-                                                '${widget.postData.interests.join(", ")}',
+                                                widget.postData.interests
+                                                .join(", "),
                                             style: TextStyle(
                                               color: Theme.of(context)
                                                   .colorScheme
@@ -295,7 +296,8 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                                           ),
                                           TextSpan(
                                             text:
-                                                '${widget.postData.qualifications.join(", ")}',
+                                                widget.postData.qualifications
+                                                .join(", "),
                                             style: TextStyle(
                                               color: Theme.of(context)
                                                   .colorScheme
@@ -324,7 +326,8 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                                           ),
                                           TextSpan(
                                             text:
-                                                '${widget.postData.skills.join(", ")}',
+                                                widget.postData.skills
+                                                .join(", "),
                                             style: TextStyle(
                                               color: Theme.of(context)
                                                   .colorScheme

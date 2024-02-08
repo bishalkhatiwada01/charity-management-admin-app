@@ -1,22 +1,19 @@
-import 'package:charity_management_admin/common/widgets/my_button.dart';
-import 'package:charity_management_admin/features/volunteer/data/application_service.dart';
-import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
-import 'package:charity_management_admin/features/volunteer/presentation/widgets/accept_reject_button.dart';
-import 'package:charity_management_admin/features/volunteer/presentation/widgets/my_rich_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
+import 'package:charity_management_admin/features/volunteer/presentation/widgets/my_rich_text.dart';
+
 class AcceptedApplicationDetailPage extends ConsumerStatefulWidget {
   final VolunteerApplication application;
 
-  AcceptedApplicationDetailPage({super.key, required this.application});
+  const AcceptedApplicationDetailPage({super.key, required this.application});
   @override
   ConsumerState<AcceptedApplicationDetailPage> createState() =>
       _RequestedApplicationDetailPageState();
 }
 
-ApplicationService _applicationService = ApplicationService();
 
 class _RequestedApplicationDetailPageState
     extends ConsumerState<AcceptedApplicationDetailPage> {

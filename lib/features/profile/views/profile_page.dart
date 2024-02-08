@@ -142,7 +142,7 @@ class ProfilePage extends ConsumerWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      VolunteerHistoryPage()));
+                                      const VolunteerHistoryPage()));
                         },
                         title: 'Volunteer History',
                         leading: const Icon(
