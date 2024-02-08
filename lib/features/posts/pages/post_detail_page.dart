@@ -2,6 +2,7 @@ import 'package:charity_management_admin/common/functions/date_formatted.dart';
 import 'package:charity_management_admin/features/posts/domain/data_model.dart';
 import 'package:charity_management_admin/features/posts/data/service/edit_delete_logic.dart';
 import 'package:charity_management_admin/features/posts/pages/edit_post_page.dart';
+import 'package:charity_management_admin/features/posts/pages/full_screen_image.dart';
 import 'package:charity_management_admin/features/posts/widgets/edit_delete_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,10 +11,7 @@ class PostDetailsPage extends StatefulWidget {
   final String postId;
   final PostDataModel postData;
 
-
-
   const PostDetailsPage({
-
     super.key,
     required this.postId,
     required this.postData,
@@ -54,14 +52,28 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ClipRRect(
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(12.0)),
-                    child: Image.network(
-                      widget.postData.postImageUrl,
-                      height: 200.0,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
+                  GestureDetector(
+                    onTap: () {
+                      // Handle the onTap event to show the image in full screen
+                      // You can navigate to a new screen with the full-screen image, or show a dialog, etc.
+                      // For example, you can use Navigator to navigate to a new fullscreen image screen:
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FullScreenImage(
+                              imageUrl: widget.postData.postImageUrl),
+                        ),
+                      );
+                    },
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(12.0)),
+                      child: Image.network(
+                        widget.postData.postImageUrl,
+                        height: 200.0,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   Container(
@@ -265,8 +277,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                                             ),
                                           ),
                                           TextSpan(
-                                            text:
-                                                widget.postData.interests
+                                            text: widget.postData.interests
                                                 .join(", "),
                                             style: TextStyle(
                                               color: Theme.of(context)
@@ -295,8 +306,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                                             ),
                                           ),
                                           TextSpan(
-                                            text:
-                                                widget.postData.qualifications
+                                            text: widget.postData.qualifications
                                                 .join(", "),
                                             style: TextStyle(
                                               color: Theme.of(context)
@@ -325,8 +335,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                                             ),
                                           ),
                                           TextSpan(
-                                            text:
-                                                widget.postData.skills
+                                            text: widget.postData.skills
                                                 .join(", "),
                                             style: TextStyle(
                                               color: Theme.of(context)
