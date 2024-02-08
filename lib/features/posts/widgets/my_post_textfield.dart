@@ -6,6 +6,7 @@ class MyPostTextField extends StatelessWidget {
   final int maxlines;
   final bool obscureText;
   final TextEditingController controller;
+  final String? Function(String?)? validator; // Validator function
 
   const MyPostTextField({
     super.key,
@@ -13,11 +14,15 @@ class MyPostTextField extends StatelessWidget {
     required this.maxlines,
     required this.obscureText,
     required this.controller,
+    required this.validator,
   });
+
+
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+
       cursorColor: Theme.of(context).colorScheme.inversePrimary,
       maxLines: maxlines,
       controller: controller,
@@ -28,6 +33,7 @@ class MyPostTextField extends StatelessWidget {
         labelText: labelText,
       ),
       obscureText: obscureText,
+      validator: validator, 
     );
   }
 }

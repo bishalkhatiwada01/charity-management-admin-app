@@ -1,8 +1,6 @@
 import 'package:charity_management_admin/common/widgets/my_drawer.dart';
 import 'package:charity_management_admin/features/posts/data/provider/post_porvider.dart';
 import 'package:charity_management_admin/features/posts/pages/create_post_page.dart';
-import 'package:charity_management_admin/features/posts/data/service/post_service.dart';
-import 'package:charity_management_admin/features/posts/data/service/edit_delete_logic.dart';
 import 'package:charity_management_admin/features/posts/widgets/my_post_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,14 +14,6 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  final EditDeleteLogic editDeleteLogic = EditDeleteLogic();
-
-  // firestore access
-
-  // text controller
-  final TextEditingController newPostController = TextEditingController();
-  // post message
-
   @override
   Widget build(BuildContext context) {
     final postData = ref.watch(postProvider);
@@ -51,7 +41,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ))
                   : ListView.builder(
                       itemBuilder: (context, index) {
-                        return PostCard(postData: data[index]);
+                        return PostCard(
+                          postData: data[index],
+                        );
                       },
                       itemCount: data.length,
                     );

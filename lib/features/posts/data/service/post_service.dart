@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:charity_management_admin/features/posts/domain/data_model.dart';
 import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class PostDataSource {
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final postDb = FirebaseFirestore.instance.collection('posts');
 
   Future<String> createPost({
@@ -16,6 +12,10 @@ class PostDataSource {
     required String postContact,
     required String postContent,
     required String postImageUrl,
+    required String khaltiNo,
+    required List<String> skills,
+    required List<String> interests,
+    required List<String> qualifications,
   }) async {
     try {
       await postDb.add({
@@ -24,6 +24,10 @@ class PostDataSource {
         'postContact': postContact,
         'postContent': postContent,
         'postImageUrl': postImageUrl,
+        'khaltiNo': khaltiNo,
+        'skills': skills,
+        'interests': interests,
+        'qualifications': qualifications,
         'postCreatedAt': DateTime.now().toIso8601String(),
       });
       // await sendNotificationToSubscribedUsers(postHeadline, postContent);

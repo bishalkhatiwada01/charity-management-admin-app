@@ -1,4 +1,3 @@
-
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
@@ -33,13 +32,12 @@ class _CreatePostPageState extends State<CreatePostPage> {
   final TextEditingController postContactController = TextEditingController();
   final TextEditingController postContentController = TextEditingController();
   final TextEditingController postImageUrlController = TextEditingController();
-  final TextEditingController interestsController = TextEditingController();
-
+  final TextEditingController khaltiNoController = TextEditingController();
   final TextEditingController volunteerSkillsController =
       TextEditingController();
-  final TextEditingController volunteerQualificationsController =
+  final TextEditingController volunteerQualifiController =
       TextEditingController();
-  final TextEditingController volunteerInterestsController =
+  final TextEditingController volunteerIntersController =
       TextEditingController();
 
   String? _validateTextField(String? value) {
@@ -80,7 +78,11 @@ class _CreatePostPageState extends State<CreatePostPage> {
         postAddress: postAddressController.text.trim(),
         postContact: postContactController.text.trim(),
         postContent: postContentController.text.trim(),
+        khaltiNo: khaltiNoController.text.trim(),
         postImageUrl: postImageUrl,
+        skills: volunteerSkillsController.text.trim().split(','),
+        interests: volunteerIntersController.text.trim().split(','),
+        qualifications: volunteerQualifiController.text.trim().split(','),
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -91,16 +93,12 @@ class _CreatePostPageState extends State<CreatePostPage> {
     }
   }
 
-  List<String> volunteerSkills = [];
-  List<String> volunteerQualifications = [];
-  List<String> volunteerInterests = [];
-  List<String> allSkills = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.background,
         foregroundColor: Theme.of(context).colorScheme.inversePrimary,
         elevation: 0,
@@ -119,6 +117,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
             child: Column(
               children: [
                 MyPostTextField(
+                  validator: _validateTextField,
                   maxlines: 1,
                   controller: postHeadlineController,
                   labelText: 'Headline',
@@ -126,6 +125,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 ),
                 SizedBox(height: 10.h),
                 MyPostTextField(
+                  validator: _validateTextField,
                   maxlines: 5,
                   controller: postContentController,
                   labelText: 'Content',
@@ -133,6 +133,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 ),
                 SizedBox(height: 10.h),
                 MyPostTextField(
+                  validator: _validateTextField,
                   maxlines: 1,
                   controller: postAddressController,
                   labelText: 'Address',
@@ -140,6 +141,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 ),
                 SizedBox(height: 10.h),
                 MyPostTextField(
+                  validator: _validateTextField,
                   maxlines: 1,
                   controller: postContactController,
                   labelText: 'Contact No.',
@@ -147,6 +149,29 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 ),
                 SizedBox(height: 10.h),
                 MyPostTextField(
+                  validator: _validateTextField,
+                  maxlines: 1,
+                  controller: khaltiNoController,
+                  labelText: 'Khalti No.',
+                  obscureText: false,
+                ),
+                SizedBox(height: 10.h),
+                Divider(color: Theme.of(context).colorScheme.inversePrimary),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'For Volunteers',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10.h),
+                MyPostTextField(
+                  validator: _validateTextField,
                   maxlines: 1,
                   controller: volunteerSkillsController,
                   labelText: 'Skills',
@@ -154,15 +179,17 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 ),
                 SizedBox(height: 10.h),
                 MyPostTextField(
+                  validator: _validateTextField,
                   maxlines: 1,
-                  controller: volunteerQualificationsController,
+                  controller: volunteerQualifiController,
                   labelText: 'Qualifications',
                   obscureText: false,
                 ),
                 SizedBox(height: 10.h),
                 MyPostTextField(
+                  validator: _validateTextField,
                   maxlines: 1,
-                  controller: volunteerInterestsController,
+                  controller: volunteerIntersController,
                   labelText: 'Interests',
                   obscureText: false,
                 ),
@@ -226,10 +253,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 MyButton(
                   text: 'Submit',
                   onTap: _submitForm,
-                  // onTap: () {
-                  //   // Navigator.of(context).pushReplacement(
-                  //   //     MaterialPageRoute(builder: (context) => DemoPage()));
-                  // },
                 ),
               ],
             ),

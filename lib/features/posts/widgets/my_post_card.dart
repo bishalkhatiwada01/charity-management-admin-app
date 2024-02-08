@@ -25,13 +25,14 @@ class _PostCardState extends ConsumerState<PostCard> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => PostDetailsPage(
-              postModel: widget.postData,
+              postData: widget.postData,
               postId: widget.postData.postId,
             ),
           ),
         );
       },
       child: Card(
+        
         elevation: 4.0,
         margin: const EdgeInsets.all(16.0),
         shape: RoundedRectangleBorder(
@@ -62,7 +63,6 @@ class _PostCardState extends ConsumerState<PostCard> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 8.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -70,7 +70,10 @@ class _PostCardState extends ConsumerState<PostCard> {
                         formatDateTime(
                           widget.postData.postCreatedAt,
                         ),
-                        style: const TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            fontSize: 13.sp,
+                            color:
+                                Theme.of(context).colorScheme.inversePrimary),
                       ),
                       IconButton(
                         onPressed: () {
@@ -78,9 +81,9 @@ class _PostCardState extends ConsumerState<PostCard> {
                               context, widget.postData.postId);
                         },
                         icon: Icon(
-                          Icons.delete_rounded,
+                          Icons.delete,
                           size: 23.sp,
-                          color: Colors.red.shade400,
+                          color: Colors.red.shade300,
                         ),
                       ),
                     ],

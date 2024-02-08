@@ -154,18 +154,6 @@ class ProfilePage extends ConsumerWidget {
 
                       MyCardProfile(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/help_support');
-                        },
-                        title: 'Help & Support',
-                        leading: const Icon(
-                          Icons.help_outline,
-                          color: Colors.black54,
-                        ),
-                      ),
-                      SizedBox(height: 6.h),
-
-                      MyCardProfile(
-                        onPressed: () {
                           Navigator.pushNamed(context, '/invite_friend');
                         },
                         title: 'Invite a Friend',
