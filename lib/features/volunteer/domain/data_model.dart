@@ -15,22 +15,23 @@ class VolunteerApplication {
   final String volunteerApplicationId;
   final String? applicationAcceptedDate;
 
-  VolunteerApplication(
-      {required this.userId,
-      required this.postId,
-      required this.volunteerName,
-      required this.volunteer,
-      required this.post,
-      required this.volunteerEmail,
-      this.volunteerInterests,
-      required this.volunteerExperience,
-      required this.volunteerAddress,
-      this.volunteerQualification,
-      required this.volunteerCreatedAt,
-      required this.volunteerApplicationId,
-      required this.volunteerContactNum,
-      this.volunteerSkills,
-      required this.applicationAcceptedDate});
+  VolunteerApplication({
+    required this.userId,
+    required this.postId,
+    required this.volunteerName,
+    required this.volunteer,
+    required this.post,
+    required this.volunteerEmail,
+    this.volunteerInterests,
+    required this.volunteerExperience,
+    required this.volunteerAddress,
+    this.volunteerQualification,
+    required this.volunteerCreatedAt,
+    required this.volunteerApplicationId,
+    required this.volunteerContactNum,
+    this.volunteerSkills,
+    required this.applicationAcceptedDate,
+  });
 
   factory VolunteerApplication.fromJson(Map<String, dynamic> json) {
     return VolunteerApplication(

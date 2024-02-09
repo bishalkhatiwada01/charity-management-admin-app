@@ -1,6 +1,8 @@
-// ignore_for_file: use_build_context_synchronously, duplicate_ignore
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:charity_management_admin/features/volunteer/data/application_service.dart';
 import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
+import 'package:charity_management_admin/features/volunteer/presentation/pages/application_page.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/widgets/accept_reject_button.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/widgets/my_rich_text.dart';
 import 'package:flutter/foundation.dart';
@@ -118,7 +120,7 @@ class _RequestedApplicationDetailPageState
                       label: 'Qualification',
                       value: applicationData.volunteerQualification!.join(', '),
                     ),
-                    Divider(),
+                    const Divider(),
                     Text(
                       'Post Details: ',
                       style: TextStyle(
@@ -148,7 +150,7 @@ class _RequestedApplicationDetailPageState
                       value: applicationData.post.postDate,
                     ),
                     const SizedBox(height: 8.0),
-                    Divider(),
+                    const Divider(),
                     Text(
                       'Needed:',
                       style: TextStyle(
@@ -187,8 +189,15 @@ class _RequestedApplicationDetailPageState
               String response = await _applicationService.acceptApplication(
                   application: applicationData);
               if (response == 'Application Accepted') {
-                // ignore: use_build_context_synchronously
+                // Pop the current page
                 Navigator.pop(context);
+                // Push the requested application page again
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ApplicationsPage(),
+                  ),
+                );
               }
               showSnackBar(context, response);
             } catch (error) {

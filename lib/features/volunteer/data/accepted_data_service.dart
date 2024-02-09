@@ -3,6 +3,8 @@ import 'package:charity_management_admin/features/volunteer/domain/data_model.da
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final class AcceptedDataService {
+
+  
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<List<VolunteerApplication>> getAcceptedApplication() async {
@@ -25,6 +27,20 @@ final class AcceptedDataService {
       rethrow;
     }
   }
+  final _acceptedApplicationsRef =
+      FirebaseFirestore.instance.collection('accepted_applications');
+
+  Future<String> deleteApplication(String volunteerApplicationId,
+      {required String applicationId}) async {
+    try {
+      await _acceptedApplicationsRef.doc(applicationId).delete();
+      return 'Application Deleted';
+    } on FirebaseException catch (err) {
+      return '${err.message}';
+    }
+  }
+  
+
 
   Future<Volunteer> getVolunteer(String volunteerId) async {
     try {

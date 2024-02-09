@@ -7,7 +7,6 @@ class ApplicationService {
   final _acceptedApplicationsRef =
       FirebaseFirestore.instance.collection('accepted_applications');
 
-
   Future<String> acceptApplication({
     required VolunteerApplication application,
   }) async {
@@ -32,15 +31,6 @@ class ApplicationService {
   Future<String> rejectApplication({required String applicationId}) async {
     try {
       await _volunteerApplicationsRef.doc(applicationId).delete();
-      return 'Application Deleted';
-    } on FirebaseException catch (err) {
-      return '${err.message}';
-    }
-  }
-  Future<String> deleteApplication(String volunteerApplicationId,
-      {required String applicationId}) async {
-    try {
-      await _acceptedApplicationsRef.doc(applicationId).delete();
       return 'Application Deleted';
     } on FirebaseException catch (err) {
       return '${err.message}';

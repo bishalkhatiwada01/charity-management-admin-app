@@ -1,7 +1,8 @@
+import 'package:charity_management_admin/features/volunteer/data/accepted_data_service.dart';
+import 'package:charity_management_admin/features/volunteer/data/application_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/widgets/my_rich_text.dart';
 
@@ -13,6 +14,8 @@ class AcceptedApplicationDetailPage extends ConsumerStatefulWidget {
   ConsumerState<AcceptedApplicationDetailPage> createState() =>
       _RequestedApplicationDetailPageState();
 }
+ApplicationService _applicationService = ApplicationService();
+
 
 class _RequestedApplicationDetailPageState
     extends ConsumerState<AcceptedApplicationDetailPage> {
@@ -111,7 +114,7 @@ class _RequestedApplicationDetailPageState
                         label: 'Interest',
                         value: applicationData.volunteerInterests!.join(', ')),
                     const SizedBox(height: 8.0),
-                    Divider(),
+                    const Divider(),
                     Text(
                       'Post Details: ',
                       style: TextStyle(
@@ -141,7 +144,7 @@ class _RequestedApplicationDetailPageState
                       value: applicationData.post.postDate,
                     ),
                     const SizedBox(height: 8.0),
-                    Divider(),
+                    const Divider(),
                     Text(
                       'Needed:',
                       style: TextStyle(
@@ -164,7 +167,31 @@ class _RequestedApplicationDetailPageState
                       label: 'Qualification',
                       value: applicationData.post.qualifications.join(', '),
                     ),
-                    SizedBox(height: 20.h),
+                    Divider(),
+                    Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.red.shade600),
+                        ),
+                        onPressed: () async {
+                          String result =
+                              await _applicationService.rejectApplication(
+                                  applicationId:
+                                      applicationData.volunteerApplicationId);
+                          if (result == 'Application Rejected') {
+                            Navigator.pop(context);
+                          }
+                          showSnackBar(context, result);
+                        },
+                        child: Text(
+                          'Delete',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                          ),
+                        ),
+                      ),
+                    ])
                   ],
                 ),
               ),

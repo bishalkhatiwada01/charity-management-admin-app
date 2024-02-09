@@ -4,6 +4,7 @@ import 'package:charity_management_admin/features/posts/domain/data_model.dart';
 import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class PostDataSource {
@@ -63,7 +64,9 @@ class PostDataSource {
         },
       );
     } catch (e) {
-      print('Error sending notification: $e');
+      if (kDebugMode) {
+        print('Error sending notification: $e');
+      }
     }
   }
 
