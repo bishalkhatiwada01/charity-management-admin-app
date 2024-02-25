@@ -21,6 +21,7 @@ class RequestedApplicationDetailPage extends ConsumerStatefulWidget {
 
 ApplicationService _applicationService = ApplicationService();
 
+
 class _RequestedApplicationDetailPageState
     extends ConsumerState<RequestedApplicationDetailPage> {
   @override
@@ -28,6 +29,7 @@ class _RequestedApplicationDetailPageState
     final applicationData = widget.application;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         iconTheme: IconThemeData(
           color: Theme.of(context).colorScheme.inversePrimary,
         ),
@@ -36,6 +38,7 @@ class _RequestedApplicationDetailPageState
           style: TextStyle(
             color: Theme.of(context).colorScheme.inversePrimary,
             letterSpacing: 4,
+            fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,

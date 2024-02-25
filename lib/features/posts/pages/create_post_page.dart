@@ -1,12 +1,12 @@
-// ignore_for_file: use_build_context_synchronously, unused_import, unused_result
-
 import 'dart:io';
 import 'package:charity_management_admin/common/widgets/my_button.dart';
 import 'package:charity_management_admin/features/dashbord/views/home_page.dart';
+import 'package:charity_management_admin/features/notifications/service/notification_service.dart';
 import 'package:charity_management_admin/features/posts/data/provider/post_porvider.dart';
 
 import 'package:charity_management_admin/features/posts/data/service/post_service.dart';
 import 'package:charity_management_admin/features/posts/widgets/my_post_textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -54,13 +54,11 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   @override
   void initState() {
     super.initState();
+    // Send the notification...
     _firebaseMessaging.requestPermission();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       // Handle notification when app is in foreground
-      if (message.notification != null) {
-      }
     });
-
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       // Handle notification when app is opened from a terminated state
     });
@@ -118,7 +116,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
             child: Column(
               children: [
                 MyPostTextField(
-                  
                   validator: _validateTextField,
                   maxlines: 1,
                   controller: postHeadlineController,
@@ -253,7 +250,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                       ),
                 SizedBox(height: 10.h),
                 MyButton(
-                  text: 'Submit',
+                  text: 'Post',
                   onTap: _submitForm,
                 ),
               ],

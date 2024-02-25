@@ -2,9 +2,7 @@ import 'dart:async';
 import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-final class AcceptedDataService {
-
-  
+final class AcceptedApplicationService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<List<VolunteerApplication>> getAcceptedApplication() async {
@@ -27,6 +25,7 @@ final class AcceptedDataService {
       rethrow;
     }
   }
+
   final _acceptedApplicationsRef =
       FirebaseFirestore.instance.collection('accepted_applications');
 
@@ -39,8 +38,6 @@ final class AcceptedDataService {
       return '${err.message}';
     }
   }
-  
-
 
   Future<Volunteer> getVolunteer(String volunteerId) async {
     try {

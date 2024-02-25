@@ -1,6 +1,3 @@
-
-
-
 import 'package:charity_management_admin/common/functions/date_formatted.dart';
 import 'package:charity_management_admin/features/volunteer/domain/application_data_provider.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/pages/accepted_application_detail.dart';
@@ -71,8 +68,7 @@ class AcceptedApplicationsTab extends ConsumerWidget {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) =>
-                                AcceptedApplicationDetailPage(
+                            builder: (context) => AcceptedApplicationDetailPage(
                                 application: application),
                           ),
                         );
@@ -85,7 +81,7 @@ class AcceptedApplicationsTab extends ConsumerWidget {
           );
         },
         error: (error, stack) => Center(
-          child: Text(error.toString()),
+          child: Center(child: Text("No data")),
         ),
         loading: () => const Center(
           child: CircularProgressIndicator(),

@@ -1,4 +1,4 @@
-import 'package:charity_management_admin/features/volunteer/data/accepted_data_service.dart';
+import 'package:charity_management_admin/features/volunteer/data/accepted_application_service.dart';
 import 'package:charity_management_admin/features/volunteer/data/application_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,8 +14,8 @@ class AcceptedApplicationDetailPage extends ConsumerStatefulWidget {
   ConsumerState<AcceptedApplicationDetailPage> createState() =>
       _RequestedApplicationDetailPageState();
 }
-ApplicationService _applicationService = ApplicationService();
 
+ApplicationService _applicationService = ApplicationService();
 
 class _RequestedApplicationDetailPageState
     extends ConsumerState<AcceptedApplicationDetailPage> {
@@ -24,15 +24,16 @@ class _RequestedApplicationDetailPageState
     final applicationData = widget.application;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         iconTheme: IconThemeData(
           color: Theme.of(context).colorScheme.inversePrimary,
         ),
         title: Text(
           'APPLICATION DETAILS',
           style: TextStyle(
-            color: Theme.of(context).colorScheme.inversePrimary,
-            letterSpacing: 4,
-          ),
+              color: Theme.of(context).colorScheme.inversePrimary,
+              letterSpacing: 4,
+              fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -83,7 +84,7 @@ class _RequestedApplicationDetailPageState
                     ),
                     SizedBox(height: 8.h),
                     LabelValueWidget(
-                      label: 'email',
+                      label: 'Email',
                       value: applicationData.volunteerEmail,
                     ),
                     const SizedBox(height: 8.0),
@@ -167,7 +168,7 @@ class _RequestedApplicationDetailPageState
                       label: 'Qualification',
                       value: applicationData.post.qualifications.join(', '),
                     ),
-                    Divider(),
+                    const Divider(),
                     Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                       ElevatedButton(
                         style: ButtonStyle(
@@ -175,14 +176,10 @@ class _RequestedApplicationDetailPageState
                               MaterialStateProperty.all(Colors.red.shade600),
                         ),
                         onPressed: () async {
-                          String result =
-                              await _applicationService.rejectApplication(
-                                  applicationId:
-                                      applicationData.volunteerApplicationId);
-                          if (result == 'Application Rejected') {
-                            Navigator.pop(context);
-                          }
-                          showSnackBar(context, result);
+                          AcceptedApplicationService applicationService =
+                              AcceptedApplicationService();
+                          String acceptedApplicationId =
+                              applicationData.acceptedApplicationId!;
                         },
                         child: Text(
                           'Delete',

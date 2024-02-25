@@ -14,10 +14,16 @@ class ApplicationService {
       // Convert data model to JSON-like map
       Map<String, dynamic> jsonData = application.toJson();
 
-      // Add data to Firestore
-      await FirebaseFirestore.instance
+      // Create a new document and get its ID
+      DocumentReference docRef = await FirebaseFirestore.instance
           .collection('accepted_applications')
           .add(jsonData);
+      String acceptedApplicationId = docRef.id;
+
+      // Update the document with the ID
+      await docRef.update({'acceptedApplicationId': acceptedApplicationId});
+
+      // Delete the original application
       await _volunteerApplicationsRef
           .doc(application.volunteerApplicationId)
           .delete();

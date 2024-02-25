@@ -14,6 +14,7 @@ class VolunteerApplication {
   List<String>? volunteerSkills;
   final String volunteerApplicationId;
   final String? applicationAcceptedDate;
+  final String? acceptedApplicationId;
 
   VolunteerApplication({
     required this.userId,
@@ -31,6 +32,7 @@ class VolunteerApplication {
     required this.volunteerContactNum,
     this.volunteerSkills,
     required this.applicationAcceptedDate,
+    this.acceptedApplicationId,
   });
 
   factory VolunteerApplication.fromJson(Map<String, dynamic> json) {
@@ -50,6 +52,7 @@ class VolunteerApplication {
       volunteerSkills: List<String>.from(json['volunteerSkills']),
       volunteerApplicationId: json['volunteerApplicationId'],
       applicationAcceptedDate: json['applicationAcceptedDate'],
+      acceptedApplicationId: json['acceptedApplicationId'],
     );
   }
   Map<String, dynamic> toJson() {
