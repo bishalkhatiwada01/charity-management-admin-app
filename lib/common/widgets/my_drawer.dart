@@ -1,4 +1,5 @@
 import 'package:charity_management_admin/features/donation/pages/donation_history_page.dart';
+import 'package:charity_management_admin/features/profile/views/users_page.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/pages/application_page.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -121,9 +122,8 @@ class MyDrawer extends StatelessWidget {
               onTap: () {
                 // pop drawer
                 Navigator.pop(context);
-
-                // navigate to home page
-                Navigator.pushNamed(context, '/users_page');
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => UsersPage()));
               },
             ),
           ),

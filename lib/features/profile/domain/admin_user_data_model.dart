@@ -2,13 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
   final String uid;
-  final String name;
+  final String firstName;
+  final String lastName;
   final String email;
   final String profileImageUrl;
 
   UserModel({
     required this.uid,
-    required this.name,
+    required this.firstName,
+    required this.lastName,
     required this.email,
     required this.profileImageUrl,
   });
@@ -18,7 +20,8 @@ class UserModel {
     final data = doc.data()!;
     return UserModel(
       uid: doc.id,
-      name: data['name'] ?? '',
+      firstName: data['firstname'] ?? '',
+      lastName: data['lastname'] ?? '',
       email: data['email'] ?? '',
       profileImageUrl: data['profileImageUrl'] ?? '',
     );
@@ -27,7 +30,8 @@ class UserModel {
   // Method to convert the UserModel object into a Map
   Map<String, dynamic> toDocument() {
     return {
-      'name': name,
+      'firstname': firstName,
+      'lastname': lastName,
       'email': email,
       'profileImageUrl': profileImageUrl,
     };

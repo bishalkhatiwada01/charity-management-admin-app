@@ -15,7 +15,6 @@ class DonationHistoryCard extends StatelessWidget {
     required this.transactionId,
   });
 
-
   Widget build(BuildContext context) {
     return Card(
       elevation: 3,
@@ -26,7 +25,11 @@ class DonationHistoryCard extends StatelessWidget {
           contentPadding: const EdgeInsets.all(16),
           title: Text(
             campaignName,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.inversePrimary,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,6 +39,7 @@ class DonationHistoryCard extends StatelessWidget {
                 text: TextSpan(
                   text: 'Date: ',
                   style: TextStyle(
+                    color: Theme.of(context).colorScheme.inversePrimary,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -43,6 +47,7 @@ class DonationHistoryCard extends StatelessWidget {
                     TextSpan(
                       text: donationDate,
                       style: TextStyle(
+                        color: Theme.of(context).colorScheme.inversePrimary,
                         fontWeight: FontWeight.normal,
                         fontSize: 14.sp,
                       ),
@@ -55,6 +60,7 @@ class DonationHistoryCard extends StatelessWidget {
                 text: TextSpan(
                   text: 'Amount: ',
                   style: TextStyle(
+                    color: Theme.of(context).colorScheme.inversePrimary,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -62,6 +68,7 @@ class DonationHistoryCard extends StatelessWidget {
                     TextSpan(
                       text: "\$$amount",
                       style: TextStyle(
+                        color: Theme.of(context).colorScheme.inversePrimary,
                         fontWeight: FontWeight.normal,
                         fontSize: 14.sp,
                       ),
@@ -74,6 +81,7 @@ class DonationHistoryCard extends StatelessWidget {
                 text: TextSpan(
                   text: 'Transaction Id: ',
                   style: TextStyle(
+                    color: Theme.of(context).colorScheme.inversePrimary,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -81,6 +89,7 @@ class DonationHistoryCard extends StatelessWidget {
                     TextSpan(
                       text: transactionId,
                       style: TextStyle(
+                        color: Theme.of(context).colorScheme.inversePrimary,
                         fontWeight: FontWeight.normal,
                         fontSize: 14.sp,
                       ),
@@ -93,8 +102,8 @@ class DonationHistoryCard extends StatelessWidget {
           trailing: IconButton(
             icon: const Icon(Icons.download),
             onPressed: () =>
-            // _downloadPDF(context), // Pass the context to show SnackBar
-            ScaffoldMessenger.of(context).showSnackBar(
+                // _downloadPDF(context), // Pass the context to show SnackBar
+                ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('PDF Downloaded'),
               ),
