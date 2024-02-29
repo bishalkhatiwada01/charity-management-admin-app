@@ -49,14 +49,18 @@ dependencies:
   provider: ^6.1.1
   cached_network_image: ^3.3.1
   multi_image_picker: ^4.8.01
-  flutter_chips_input: ^2.0.0 
+  flutter_chips_input: ^2.0.0
   firebase_messaging: ^14.7.15
   flutter_local_notifications: ^16.2.0
   dio: ^5.4.0
   http: ^1.2.0
+  share_plus: ^7.2.2
+  pdf: ^3.10.7
 
 
- 
+
+
+
 
 dev_dependencies:
   flutter_test:

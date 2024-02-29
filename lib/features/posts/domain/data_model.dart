@@ -6,7 +6,6 @@ class PostDataModel {
   String postContact;
   String postImageUrl;
   String postCreatedAt;
-  String khaltiNo;
   List<String> skills;
   List<String> interests;
   List<String> qualifications;
@@ -19,7 +18,6 @@ class PostDataModel {
     required this.postContact,
     required this.postImageUrl,
     required this.postCreatedAt,
-    required this.khaltiNo,
     required this.skills,
     required this.interests,
     required this.qualifications,
@@ -34,7 +32,6 @@ class PostDataModel {
       postContact: json['postContact'],
       postImageUrl: json['postImageUrl'],
       postCreatedAt: json['postCreatedAt'],
-      khaltiNo: json['khaltiNo'],
       skills: List<String>.from(json['skills']),
       interests: List<String>.from(json['interests']),
       qualifications: List<String>.from(json['qualifications']),
@@ -50,7 +47,6 @@ class PostDataModel {
       'postContact': postContact,
       'postImageUrl': postImageUrl,
       'postCreatedAt': postCreatedAt,
-      'khaltiNo': khaltiNo,
       'skills': skills,
       'interests': interests,
       'qualifications': qualifications,

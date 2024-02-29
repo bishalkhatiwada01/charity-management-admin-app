@@ -1,5 +1,7 @@
 import 'package:charity_management_admin/features/volunteer/data/accepted_application_service.dart';
 import 'package:charity_management_admin/features/volunteer/data/application_service.dart';
+import 'package:charity_management_admin/features/volunteer/domain/application_data_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +12,7 @@ class AcceptedApplicationDetailPage extends ConsumerStatefulWidget {
   final VolunteerApplication application;
 
   const AcceptedApplicationDetailPage({super.key, required this.application});
+
   @override
   ConsumerState<AcceptedApplicationDetailPage> createState() =>
       _RequestedApplicationDetailPageState();
@@ -19,6 +22,13 @@ ApplicationService _applicationService = ApplicationService();
 
 class _RequestedApplicationDetailPageState
     extends ConsumerState<AcceptedApplicationDetailPage> {
+  final _acceptedApplicationsRef =
+      FirebaseFirestore.instance.collection('accepted_applications');
+
+  Future<void> _deleteAcceptedApplication(String applicationId) async {
+    await _acceptedApplicationsRef.doc(applicationId).delete();
+  }
+
   @override
   Widget build(BuildContext context) {
     final applicationData = widget.application;
@@ -169,26 +179,36 @@ class _RequestedApplicationDetailPageState
                       value: applicationData.post.qualifications.join(', '),
                     ),
                     const Divider(),
-                    Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.red.shade600),
-                        ),
-                        onPressed: () async {
-                          AcceptedApplicationService applicationService =
-                              AcceptedApplicationService();
-                          String acceptedApplicationId =
-                              applicationData.acceptedApplicationId!;
-                        },
-                        child: Text(
-                          'Delete',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.inversePrimary,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.red.shade600),
                           ),
-                        ),
-                      ),
-                    ])
+                          onPressed: () async {
+                            try {
+                              await _deleteAcceptedApplication(
+                                  applicationData.acceptedApplicationId);
+                              showSnackBar(context, 'Application deleted');
+                              Navigator.pop(context);
+                              ref.refresh(acceptedApplicationProvider);
+                            } catch (e) {
+                              showSnackBar(
+                                  context, 'Failed to delete application');
+                            }
+                          },
+                          child: Text(
+                            'Delete',
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).colorScheme.inversePrimary,
+                            ),
+                          ),
+                        )
+                      ],
+                    )
                   ],
                 ),
               ),

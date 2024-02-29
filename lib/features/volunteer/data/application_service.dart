@@ -4,8 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ApplicationService {
   final _volunteerApplicationsRef =
       FirebaseFirestore.instance.collection('volunteer_applications');
-  final _acceptedApplicationsRef =
-      FirebaseFirestore.instance.collection('accepted_applications');
 
   Future<String> acceptApplication({
     required VolunteerApplication application,

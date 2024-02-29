@@ -32,7 +32,6 @@ class EditPostPageState extends ConsumerState<EditPostPage> {
   late TextEditingController addressController;
   late TextEditingController contactController;
   late TextEditingController imageUrlController;
-  late TextEditingController khaltiNoController;
   late TextEditingController skillsController;
   late TextEditingController interestsController;
   late TextEditingController qualificationsController;
@@ -52,8 +51,6 @@ class EditPostPageState extends ConsumerState<EditPostPage> {
     contactController =
         TextEditingController(text: widget.postDataModel.postContact);
     postImageUrl = widget.postDataModel.postImageUrl;
-    khaltiNoController =
-        TextEditingController(text: widget.postDataModel.khaltiNo);
     skillsController =
         TextEditingController(text: widget.postDataModel.skills.join(','));
     interestsController =
@@ -127,14 +124,7 @@ class EditPostPageState extends ConsumerState<EditPostPage> {
                   labelText: 'Contact No.',
                   obscureText: false,
                 ),
-                SizedBox(height: 10.h),
-                MyPostTextField(
-                  validator: _validateTextField,
-                  maxlines: 1,
-                  controller: khaltiNoController,
-                  labelText: 'Khalti No.',
-                  obscureText: false,
-                ),
+
                 SizedBox(height: 10.h),
                 MyPostTextField(
                   validator: _validateTextField,
@@ -223,7 +213,6 @@ class EditPostPageState extends ConsumerState<EditPostPage> {
                       postContact: contactController.text,
                       postImageUrl: postImageUrl,
                       postCreatedAt: widget.postDataModel.postCreatedAt,
-                      khaltiNo: widget.postDataModel.khaltiNo,
                       skills: widget.postDataModel.skills,
                       interests: widget.postDataModel.interests,
                       qualifications: widget.postDataModel.qualifications,

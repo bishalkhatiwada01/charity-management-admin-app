@@ -4,7 +4,6 @@ import 'package:charity_management_admin/features/auth/pages/login_page.dart';
 import 'package:charity_management_admin/features/auth/pages/register_page.dart';
 import 'package:charity_management_admin/features/dashbord/views/home_page.dart';
 import 'package:charity_management_admin/features/notifications/views/notification_page.dart';
-import 'package:charity_management_admin/features/profile/views/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -25,8 +24,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const HomePage());
       case Routes.notificationRoute:
         return MaterialPageRoute(builder: (_) => const NotificationPage());
-      case Routes.profileRoute:
-        return MaterialPageRoute(builder: (_) => const ProfilePage());
 
       default:
         return unDefinedRoute();

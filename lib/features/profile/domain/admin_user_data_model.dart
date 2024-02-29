@@ -1,34 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AdminUserModel {
+class UserModel {
   final String uid;
-  final String username;
+  final String name;
   final String email;
   final String profileImageUrl;
 
-  AdminUserModel({
+  UserModel({
     required this.uid,
-    required this.username,
+    required this.name,
     required this.email,
     required this.profileImageUrl,
   });
 
   // Named constructor
-  factory AdminUserModel.fromDocument(
-      DocumentSnapshot<Map<String, dynamic>> doc) {
+  factory UserModel.fromDocument(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data()!;
-    return AdminUserModel(
+    return UserModel(
       uid: doc.id,
-      username: data['username'] ?? '',
+      name: data['name'] ?? '',
       email: data['email'] ?? '',
-      profileImageUrl: data['profileImageUrl'] ?? 'No Image',
+      profileImageUrl: data['profileImageUrl'] ?? '',
     );
   }
 
   // Method to convert the UserModel object into a Map
   Map<String, dynamic> toDocument() {
     return {
-      'name': username,
+      'name': name,
       'email': email,
       'profileImageUrl': profileImageUrl,
     };

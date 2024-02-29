@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:charity_management_admin/features/volunteer/data/application_service.dart';
+import 'package:charity_management_admin/features/volunteer/domain/application_data_provider.dart';
 import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/pages/application_page.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/widgets/accept_reject_button.dart';
@@ -14,13 +15,13 @@ class RequestedApplicationDetailPage extends ConsumerStatefulWidget {
   final VolunteerApplication application;
 
   const RequestedApplicationDetailPage({super.key, required this.application});
+
   @override
   ConsumerState<RequestedApplicationDetailPage> createState() =>
       _RequestedApplicationDetailPageState();
 }
 
 ApplicationService _applicationService = ApplicationService();
-
 
 class _RequestedApplicationDetailPageState
     extends ConsumerState<RequestedApplicationDetailPage> {
@@ -192,15 +193,9 @@ class _RequestedApplicationDetailPageState
               String response = await _applicationService.acceptApplication(
                   application: applicationData);
               if (response == 'Application Accepted') {
+                ref.refresh(volunteerApplicationProvider);
                 // Pop the current page
                 Navigator.pop(context);
-                // Push the requested application page again
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ApplicationsPage(),
-                  ),
-                );
               }
               showSnackBar(context, response);
             } catch (error) {
@@ -214,6 +209,8 @@ class _RequestedApplicationDetailPageState
             String result = await _applicationService.rejectApplication(
                 applicationId: applicationData.volunteerApplicationId);
             if (result == 'Application Rejected') {
+              ref.refresh(volunteerApplicationProvider);
+
               Navigator.pop(context);
             }
             showSnackBar(context, result);

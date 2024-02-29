@@ -29,14 +29,18 @@ final class AcceptedApplicationService {
   final _acceptedApplicationsRef =
       FirebaseFirestore.instance.collection('accepted_applications');
 
-  Future<String> deleteApplication(String volunteerApplicationId,
-      {required String applicationId}) async {
+  Future<String> deleteAcceptedApplication(String volunteerApplicationId,
+      {required String acceptedApplicationId}) async {
     try {
-      await _acceptedApplicationsRef.doc(applicationId).delete();
+      await _acceptedApplicationsRef.doc(acceptedApplicationId).delete();
       return 'Application Deleted';
     } on FirebaseException catch (err) {
       return '${err.message}';
     }
+  }
+
+  Future<void> deleteApplication(String applicationId) async {
+    await _acceptedApplicationsRef.doc(applicationId).delete();
   }
 
   Future<Volunteer> getVolunteer(String volunteerId) async {

@@ -1,9 +1,6 @@
 import 'dart:io';
 import 'package:charity_management_admin/common/widgets/my_button.dart';
-import 'package:charity_management_admin/features/dashbord/views/home_page.dart';
-import 'package:charity_management_admin/features/notifications/service/notification_service.dart';
 import 'package:charity_management_admin/features/posts/data/provider/post_porvider.dart';
-
 import 'package:charity_management_admin/features/posts/data/service/post_service.dart';
 import 'package:charity_management_admin/features/posts/widgets/my_post_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -34,7 +31,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   final TextEditingController postContactController = TextEditingController();
   final TextEditingController postContentController = TextEditingController();
   final TextEditingController postImageUrlController = TextEditingController();
-  final TextEditingController khaltiNoController = TextEditingController();
   final TextEditingController volunteerSkillsController =
       TextEditingController();
   final TextEditingController volunteerQualifiController =
@@ -47,6 +43,18 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
       return 'This field is required';
     }
     return null;
+  }
+
+  void addNotificationToFirestore(
+      String postHeadline, String time, String address) async {
+    CollectionReference notifications =
+        FirebaseFirestore.instance.collection('post_created_notifications');
+
+    await notifications.add({
+      'postHeadline': postHeadline,
+      'time': time,
+      'address': address,
+    });
   }
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -73,7 +81,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
         postAddress: postAddressController.text.trim(),
         postContact: postContactController.text.trim(),
         postContent: postContentController.text.trim(),
-        khaltiNo: khaltiNoController.text.trim(),
         postImageUrl: postImageUrl,
         skills: volunteerSkillsController.text.trim().split(','),
         interests: volunteerIntersController.text.trim().split(','),
@@ -85,6 +92,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
         const SnackBar(content: Text('Post Created')),
       );
       Navigator.pop(context);
+
+      addNotificationToFirestore(postHeadlineController.text.trim(),
+          DateTime.now().toString(), postAddressController.text.trim());
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(result)),
@@ -144,14 +154,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   maxlines: 1,
                   controller: postContactController,
                   labelText: 'Contact No.',
-                  obscureText: false,
-                ),
-                SizedBox(height: 10.h),
-                MyPostTextField(
-                  validator: _validateTextField,
-                  maxlines: 1,
-                  controller: khaltiNoController,
-                  labelText: 'Khalti No.',
                   obscureText: false,
                 ),
                 SizedBox(height: 10.h),

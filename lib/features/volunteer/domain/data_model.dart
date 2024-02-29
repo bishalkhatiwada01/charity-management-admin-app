@@ -14,7 +14,7 @@ class VolunteerApplication {
   List<String>? volunteerSkills;
   final String volunteerApplicationId;
   final String? applicationAcceptedDate;
-  final String? acceptedApplicationId;
+  final String acceptedApplicationId;
 
   VolunteerApplication({
     required this.userId,
@@ -32,7 +32,7 @@ class VolunteerApplication {
     required this.volunteerContactNum,
     this.volunteerSkills,
     required this.applicationAcceptedDate,
-    this.acceptedApplicationId,
+    required this.acceptedApplicationId,
   });
 
   factory VolunteerApplication.fromJson(Map<String, dynamic> json) {
@@ -55,6 +55,7 @@ class VolunteerApplication {
       acceptedApplicationId: json['acceptedApplicationId'],
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       'userId': userId,
@@ -91,6 +92,7 @@ class Volunteer {
       userEmail: json['email'],
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       'userName': userName,
@@ -107,10 +109,10 @@ class Post {
   final String postImageUrl;
   final String postDate;
   final String? postId;
-  final String khaltiNo;
   List<String> skills;
   List<String> interests;
   List<String> qualifications;
+
   Post({
     required this.postHeadline,
     required this.postContent,
@@ -119,7 +121,6 @@ class Post {
     required this.postImageUrl,
     required this.postDate,
     required this.postId,
-    required this.khaltiNo,
     required this.skills,
     required this.interests,
     required this.qualifications,
@@ -134,7 +135,6 @@ class Post {
       'postImageUrl': postImageUrl,
       'postId': postId,
       'postCreatedAt': postDate,
-      'khaltiNo': khaltiNo,
       'skills': skills,
       'interests': interests,
       'qualifications': qualifications,
@@ -150,7 +150,6 @@ class Post {
       postContact: json['postContact'],
       postId: json['postId'],
       postDate: json['postCreatedAt'],
-      khaltiNo: json['khaltiNo'],
       skills: List<String>.from(json['skills']),
       interests: List<String>.from(json['interests']),
       qualifications: List<String>.from(json['qualifications']),

@@ -181,34 +181,6 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: 'Khalti no: ',
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .inversePrimary,
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              TextSpan(
-                                text: widget.postData.khaltiNo,
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .inversePrimary,
-                                  fontStyle: FontStyle.italic,
-                                  fontSize: 18,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 8.0),
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
                                 text: 'Content: ',
                                 style: TextStyle(
                                   color: Theme.of(context)

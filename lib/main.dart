@@ -3,8 +3,6 @@ import 'package:charity_management_admin/common/themes/dark_mode.dart';
 import 'package:charity_management_admin/common/themes/light_mode.dart';
 import 'package:charity_management_admin/features/dashbord/views/home_page.dart';
 import 'package:charity_management_admin/features/notifications/views/notification_page.dart';
-import 'package:charity_management_admin/features/profile/views/profile_page.dart';
-import 'package:charity_management_admin/features/profile/views/users_page.dart';
 import 'package:charity_management_admin/firebase_options.dart';
 import 'package:charity_management_admin/helper/login_or_register.dart';
 import 'package:charity_management_admin/shared/status_page.dart';
@@ -47,8 +45,8 @@ class MyApp extends StatelessWidget {
             routes: {
               '/login_register_page': (context) => const LoginOrRegister(),
               '/home_page': (context) => const HomePage(),
-              '/profile_page': (context) => const ProfilePage(),
-              '/users_page': (context) => const UserPage(),
+              // '/profile_page': (context) => const ProfilePage(),
+              // '/users_page': (context) => UsersPage(),
               '/notification_page': (context) => const NotificationPage(),
             },
           );
