@@ -15,11 +15,13 @@ class AuthService {
       );
       final token = await FirebaseMessaging.instance.getToken();
       final userData = await userDb.doc(userCredential.user!.uid).get();
-      await userDb.doc(userCredential.user!.uid).update({
-        'email': userData['email'],
-        'username': userData['username'],
-        'token': token,
-      });
+      await userDb.doc(userCredential.user!.uid).update(
+        {
+          'email': userData['email'],
+          'username': userData['username'],
+          'token': token,
+        },
+      );
 
       return userCredential;
     } on FirebaseAuthException catch (e) {

@@ -1,46 +1,70 @@
+import 'package:charity_management_admin/features/auth/data/auth_service.dart';
 import 'package:charity_management_admin/features/donation/pages/donation_history_page.dart';
+import 'package:charity_management_admin/features/profile/provider/admin_user_provider.dart';
 import 'package:charity_management_admin/features/profile/views/users_page.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/pages/application_page.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class MyDrawer extends StatelessWidget {
+class MyDrawer extends ConsumerWidget {
   const MyDrawer({super.key});
 
-  // logout user
-  void logout() {
-    FirebaseAuth.instance.signOut();
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    FirebaseAuth _authService = FirebaseAuth.instance;
+    final adminUserData = ref.watch(adminUserProvider);
+
     return Drawer(
       backgroundColor: Theme.of(context).colorScheme.background,
       child: Column(
         children: [
-          UserAccountsDrawerHeader(
-            accountName: Text("TEST"),
-            // replace with actual user name
-            accountEmail: Text("test@example.com"),
-            // replace with actual user email
-            currentAccountPicture: CircleAvatar(
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              child: Text(
-                "U", // replace with the first letter of the user name
-                style: TextStyle(fontSize: 40.0),
-              ),
-            ),
-          ),
-
-          // drawer header
-          SizedBox(height: 20.h),
           SizedBox(
-            height: 15.h,
+            height: 20.h,
           ),
 
-          // home tile
+          adminUserData.when(
+            data: (user) {
+              return Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: Image.asset('assets/admin.png').image,
+                    radius: 70,
+                  ),
+                  Text(
+                    user.name,
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    user.email,
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ],
+              );
+            },
+            loading: () => CircularProgressIndicator(),
+            error: (error, stack) => Text('Error: $error'),
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+
+          Divider(
+            color: Theme.of(context).colorScheme.primary,
+            thickness: 4,
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+
           Padding(
             padding: EdgeInsets.only(left: 10.w),
             child: ListTile(
@@ -141,12 +165,10 @@ class MyDrawer extends StatelessWidget {
                   letterSpacing: 4.w,
                 ),
               ),
-              onTap: () {
+              onTap: () async {
                 // pop drawer
                 Navigator.pop(context);
-
-                // logout
-                logout();
+                await _authService.signOut();
               },
             ),
           ),

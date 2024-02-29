@@ -1,5 +1,5 @@
 import 'package:charity_management_admin/common/widgets/custom_app_bar.dart';
-import 'package:charity_management_admin/features/profile/domain/admin_user_data_model.dart';
+import 'package:charity_management_admin/features/profile/domain/user_data_model.dart';
 import 'package:charity_management_admin/features/profile/widgets/user_card.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

@@ -1,5 +1,5 @@
 import 'package:charity_management_admin/common/widgets/custom_app_bar.dart';
-import 'package:charity_management_admin/features/profile/domain/admin_user_data_model.dart';
+import 'package:charity_management_admin/features/profile/domain/user_data_model.dart';
 import 'package:flutter/material.dart';
 
 class UserDetailPage extends StatelessWidget {

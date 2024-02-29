@@ -1,4 +1,4 @@
-import 'package:charity_management_admin/features/profile/domain/admin_user_data_model.dart';
+import 'package:charity_management_admin/features/profile/domain/user_data_model.dart';
 import 'package:charity_management_admin/features/profile/views/user_detail_page.dart';
 import 'package:flutter/material.dart';
 

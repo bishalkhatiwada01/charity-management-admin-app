@@ -30,7 +30,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               style: TextStyle(letterSpacing: 6),
             ),
           ),
-          drawer: const MyDrawer(),
+          drawer: MyDrawer(),
           body: postData.when(
             data: (data) {
               return data.isEmpty
