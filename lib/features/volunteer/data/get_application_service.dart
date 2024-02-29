@@ -21,8 +21,10 @@ final class DataService {
         });
       }));
       return applicationList;
-    } on FirebaseException {
+    } catch(e){
+      print("errorr--------------------------");
       rethrow;
+
     }
   }
 
