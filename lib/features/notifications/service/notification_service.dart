@@ -13,7 +13,6 @@ class NotificationService {
       await _notificationsRef.add({
         'title': title,
         'message': message,
-        'postId': postId,
         'timestamp': FieldValue.serverTimestamp(),
       });
     } catch (e) {

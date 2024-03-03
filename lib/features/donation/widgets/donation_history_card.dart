@@ -1,5 +1,7 @@
+import 'package:charity_management_admin/features/donation/data/pdf_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class DonationHistoryCard extends StatelessWidget {
   final String donationDate;
@@ -14,6 +16,31 @@ class DonationHistoryCard extends StatelessWidget {
     required this.campaignName,
     required this.transactionId,
   });
+
+  void _downloadPDF(BuildContext context) async {
+    var status = await Permission.manageExternalStorage.status;
+    if (status.isGranted) {
+      // Permission is already granted, proceed with download
+      PDFService.downloadDonationHistoryPDF(
+          campaignName, donationDate, amount, transactionId);
+      print("PDF Downloaded");
+    } else {
+      // Permission is not granted, request it
+      status = await Permission.manageExternalStorage.request();
+      if (status.isGranted) {
+        // Permission granted, proceed with download
+        PDFService.downloadDonationHistoryPDF(
+            campaignName, donationDate, amount, transactionId);
+      } else {
+        // Permission denied
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Storage permission required for download.'),
+          ),
+        );
+      }
+    }
+  }
 
   Widget build(BuildContext context) {
     return Card(
@@ -49,7 +76,7 @@ class DonationHistoryCard extends StatelessWidget {
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.inversePrimary,
                         fontWeight: FontWeight.normal,
-                        fontSize: 14.sp,
+                        fontSize: 15.sp,
                       ),
                     ),
                   ],
@@ -91,7 +118,7 @@ class DonationHistoryCard extends StatelessWidget {
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.inversePrimary,
                         fontWeight: FontWeight.normal,
-                        fontSize: 14.sp,
+                        fontSize: 15.sp,
                       ),
                     ),
                   ],
@@ -102,12 +129,12 @@ class DonationHistoryCard extends StatelessWidget {
           trailing: IconButton(
             icon: const Icon(Icons.download),
             onPressed: () =>
-                // _downloadPDF(context), // Pass the context to show SnackBar
-                ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('PDF Downloaded'),
-              ),
-            ),
+                _downloadPDF(context), // Pass the context to show SnackBar
+            //     ScaffoldMessenger.of(context).showSnackBar(
+            //   const SnackBar(
+            //     content: Text('PDF Downloaded'),
+            //   ),
+            // ),
           ),
         ),
       ),

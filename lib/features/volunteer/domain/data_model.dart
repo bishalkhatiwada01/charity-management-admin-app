@@ -72,7 +72,7 @@ class VolunteerApplication {
       'volunteerSkills': volunteerSkills,
       'volunteerApplicationId': volunteerApplicationId,
       'volunteerDate': volunteerCreatedAt,
-      'applicationAcceptedDate': applicationAcceptedDate,
+      'applicationAcceptedDate': DateTime.now().toString(),
     };
   }
 }

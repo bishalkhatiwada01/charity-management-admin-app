@@ -83,9 +83,12 @@ class RequestedApplicationsTab extends ConsumerWidget {
             },
           );
         },
-        error: (error, stack) => Center(
-          child: Text(error.toString()),
-        ),
+        error: (error, stack) {
+          print(stack);
+          return Center(
+              child: Text(error.toString())
+          );
+        },
         loading: () => const Center(
           child: CircularProgressIndicator(),
         ),

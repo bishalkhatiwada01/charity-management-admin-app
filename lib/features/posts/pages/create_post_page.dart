@@ -45,18 +45,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     return null;
   }
 
-  void addNotificationToFirestore(
-      String postHeadline, String time, String address) async {
-    CollectionReference notifications =
-        FirebaseFirestore.instance.collection('post_created_notifications');
-
-    await notifications.add({
-      'postHeadline': postHeadline,
-      'time': time,
-      'address': address,
-    });
-  }
-
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   @override
@@ -93,8 +81,16 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
       );
       Navigator.pop(context);
 
-      addNotificationToFirestore(postHeadlineController.text.trim(),
-          DateTime.now().toString(), postAddressController.text.trim());
+      void addNotificationToFirestore() async {
+        CollectionReference notifications =
+            FirebaseFirestore.instance.collection('post_created_notifications');
+
+        await notifications.add({
+          'postHeadline': postHeadlineController,
+          'time': DateTime.now().toIso8601String(),
+          'address': postAddressController,
+        });
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(result)),
