@@ -1,7 +1,7 @@
 import 'package:charity_management_admin/api/api_keys.dart';
 import 'package:charity_management_admin/api/end_points.dart';
 import 'package:charity_management_admin/features/posts/domain/data_model.dart';
-import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
+import 'package:charity_management_admin/features/volunteer/domain/volunteer_application_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -85,16 +85,6 @@ class PostDataSource {
     }
   }
 
-  Future<String> deletePost({required String postId}) async {
-    try {
-      await postDb.doc(postId).delete();
-
-      return 'Post Deleted';
-    } on FirebaseException catch (err) {
-      return '${err.message}';
-    }
-  }
-
   Future<String> updatePost({
     required PostDataModel postDataModel,
   }) async {
@@ -115,22 +105,6 @@ class PostDataSource {
       return 'Post Updated';
     } on FirebaseException catch (err) {
       return '${err.message}';
-    }
-  }
-
-  Future<List<Post>> getPostByPostId({required String postId}) async {
-    try {
-      final querySnapshot =
-          await postDb.where('postId', isEqualTo: postId).get();
-
-      return querySnapshot.docs
-          .map((doc) => Post.fromJson({
-                ...doc.data(),
-                'postId': doc.id,
-              }))
-          .toList();
-    } catch (e) {
-      rethrow;
     }
   }
 }

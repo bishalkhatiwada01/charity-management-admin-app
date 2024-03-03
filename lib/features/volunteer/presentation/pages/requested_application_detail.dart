@@ -6,8 +6,8 @@ import 'package:charity_management_admin/api/api_keys.dart';
 import 'package:charity_management_admin/api/end_points.dart';
 import 'package:charity_management_admin/api/firebase_api.dart';
 import 'package:charity_management_admin/features/volunteer/data/application_service.dart';
-import 'package:charity_management_admin/features/volunteer/domain/application_data_provider.dart';
-import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
+import 'package:charity_management_admin/features/volunteer/providers/application_data_provider.dart';
+import 'package:charity_management_admin/features/volunteer/domain/volunteer_application_model.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/pages/application_page.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/widgets/accept_reject_button.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/widgets/my_rich_text.dart';
@@ -202,15 +202,19 @@ class _RequestedApplicationDetailPageState
             try {
               String response = await _applicationService.acceptApplication(
                   application: applicationData);
+
               if (response == 'Application Accepted') {
                 await sendNotification(
-                    token: applicationData.volunteerToken,
-                    title: "Application Accepted",
-                    message: "Dear applicant, your application has been accepted in ${applicationData.post.postHeadline}",
+                  token: applicationData.volunteerToken,
+                  title: "Application Accepted",
+                  message:
+                      "Dear applicant, your application has been accepted in ${applicationData.post.postHeadline}",
                 );
-                final response = await _applicationService.sendNotification(applicationData: applicationData);
+                final response = await _applicationService.sendNotification(
+                    applicationData: applicationData);
                 print(response);
                 ref.refresh(volunteerApplicationProvider);
+                ref.refresh(acceptedApplicationProvider);
                 // Pop the current page
                 Navigator.pop(context);
               }
@@ -242,33 +246,30 @@ void showSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
 }
 
-
-Future<void> sendNotification({required String token, required String title, required String message, Map<String, dynamic>? notificationData}) async {
-  final dio = Dio(
-      BaseOptions(
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'key=$serverKey',
-        },
-        baseUrl: ApiEndPoints.baseNotificationUrl,
-      )
-  );
-  try{
-    await dio.post(
-        ApiEndPoints.baseNotificationUrl,
-        data: {
-          "to": token,
-          "priority": "High",
-          "default_notification_channel_id": "high_importance_channel",
-          "notification":{
-            "body": message,
-            "title": title,
-          },
-          "data": notificationData,
-        }
-    );
-
-  }on FirebaseException catch (err){
+Future<void> sendNotification(
+    {required String token,
+    required String title,
+    required String message,
+    Map<String, dynamic>? notificationData}) async {
+  final dio = Dio(BaseOptions(
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'key=$serverKey',
+    },
+    baseUrl: ApiEndPoints.baseNotificationUrl,
+  ));
+  try {
+    await dio.post(ApiEndPoints.baseNotificationUrl, data: {
+      "to": token,
+      "priority": "High",
+      "default_notification_channel_id": "high_importance_channel",
+      "notification": {
+        "body": message,
+        "title": title,
+      },
+      "data": notificationData,
+    });
+  } on FirebaseException catch (err) {
     throw Exception(err.message);
   }
 }

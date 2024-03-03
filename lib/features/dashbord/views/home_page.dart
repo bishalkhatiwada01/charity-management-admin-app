@@ -30,7 +30,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               style: TextStyle(letterSpacing: 6),
             ),
           ),
-          drawer: MyDrawer(),
+          drawer: const MyDrawer(),
           body: postData.when(
             data: (data) {
               return data.isEmpty
@@ -39,13 +39,18 @@ class _HomePageState extends ConsumerState<HomePage> {
                       'No Posts',
                       style: TextStyle(fontSize: 20.sp),
                     ))
-                  : ListView.builder(
-                      itemBuilder: (context, index) {
-                        return PostCard(
-                          postData: data[index],
-                        );
+                  : RefreshIndicator(
+                      onRefresh: () async {
+                        ref.refresh(postProvider);
                       },
-                      itemCount: data.length,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return PostCard(
+                            postData: data[index],
+                          );
+                        },
+                        itemCount: data.length,
+                      ),
                     );
             },
             error: (error, stackTrace) => Text(error.toString()),

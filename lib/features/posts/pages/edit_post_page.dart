@@ -224,10 +224,10 @@ class EditPostPageState extends ConsumerState<EditPostPage> {
                       postContact: contactController.text,
                       postImageUrl: postImageUrl,
                       postCreatedAt: widget.postDataModel.postCreatedAt,
-                      skills: widget.postDataModel.skills,
-                      interests: widget.postDataModel.interests,
-                      qualifications: widget.postDataModel.qualifications,
-                      targetAmount: widget.postDataModel.targetAmount,
+                      skills: skillsController.text.split(','),
+                      interests: interestsController.text.split(','),
+                      qualifications: qualificationsController.text.split(','),
+                      targetAmount: targetAmountController.text,
                     );
                     await PostDataSource().updatePost(
                       postDataModel: postDataModel,

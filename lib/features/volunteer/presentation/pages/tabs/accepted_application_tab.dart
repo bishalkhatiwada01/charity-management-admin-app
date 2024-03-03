@@ -1,5 +1,5 @@
 import 'package:charity_management_admin/common/functions/date_formatted.dart';
-import 'package:charity_management_admin/features/volunteer/domain/application_data_provider.dart';
+import 'package:charity_management_admin/features/volunteer/providers/application_data_provider.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/pages/accepted_application_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +10,7 @@ class AcceptedApplicationsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final applicationList = ref.watch(acceptedApplicationProvider);
+    final applicationList = ref.watch(volunteerApplicationProvider);
 
     return Center(
       child: applicationList.when(
@@ -18,6 +18,7 @@ class AcceptedApplicationsTab extends ConsumerWidget {
           return ListView.builder(
             itemCount: data.length,
             itemBuilder: (context, index) {
+              print('datais ======$data[index]');
               final application = data[index];
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
@@ -60,7 +61,7 @@ class AcceptedApplicationsTab extends ConsumerWidget {
                                 fontStyle: FontStyle.italic),
                           ),
                           Text(
-                            formatDateTime(application.volunteerCreatedAt),
+                            formatDateTime(application.post.postDate),
                             style: const TextStyle(color: Colors.white),
                           ),
                         ],
@@ -80,9 +81,13 @@ class AcceptedApplicationsTab extends ConsumerWidget {
             },
           );
         },
-        error: (error, stack) => Center(
-          child: Center(child: Text("No data")),
-        ),
+        error: (error, stack) {
+          print('Error: $error');
+          print('Stack trace: $stack');
+          return Center(
+            child: Text("No data"),
+          );
+        },
         loading: () => const Center(
           child: CircularProgressIndicator(),
         ),

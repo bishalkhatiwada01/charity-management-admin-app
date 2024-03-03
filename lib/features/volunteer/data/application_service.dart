@@ -1,4 +1,4 @@
-import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
+import 'package:charity_management_admin/features/volunteer/domain/volunteer_application_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
@@ -10,43 +10,6 @@ class ApplicationService {
 
   final _notificationDb =
       FirebaseFirestore.instance.collection('notifications');
-
-// accept and reject application services
-  Future<String> acceptApplication({
-    required VolunteerApplication application,
-  }) async {
-    try {
-      // Convert data model to JSON-like map
-      Map<String, dynamic> jsonData = application.toJson();
-
-      // Create a new document and get its ID
-      DocumentReference docRef = await FirebaseFirestore.instance
-          .collection('accepted_applications')
-          .add(jsonData);
-      String acceptedApplicationId = docRef.id;
-
-      // Update the document with the ID
-      await docRef.update({'acceptedApplicationId': acceptedApplicationId});
-
-      // Delete the original application
-      await _volunteerApplicationsRef
-          .doc(application.volunteerApplicationId)
-          .delete();
-
-      return 'Application Accepted';
-    } on FirebaseException catch (e) {
-      return e.message.toString();
-    }
-  }
-
-  Future<String> rejectApplication({required String applicationId}) async {
-    try {
-      await _volunteerApplicationsRef.doc(applicationId).delete();
-      return 'Application Deleted';
-    } on FirebaseException catch (err) {
-      return '${err.message}';
-    }
-  }
 
   // get appliction services
   Future<List<VolunteerApplication>> getApplication() async {
@@ -105,6 +68,43 @@ class ApplicationService {
     }
   }
 
+// accept and reject application services
+  Future<String> acceptApplication({
+    required VolunteerApplication application,
+  }) async {
+    try {
+      // Convert data model to JSON-like map
+      Map<String, dynamic> jsonData = application.toJson();
+
+      // Create a new document and get its ID
+      DocumentReference docRef = await FirebaseFirestore.instance
+          .collection('accepted_applications')
+          .add(jsonData);
+      String acceptedApplicationId = docRef.id;
+
+      // Update the document with the ID
+      await docRef.update({'acceptedApplicationId': acceptedApplicationId});
+
+      // Delete the original application
+      await _volunteerApplicationsRef
+          .doc(application.volunteerApplicationId)
+          .delete();
+
+      return 'Application Accepted';
+    } on FirebaseException catch (e) {
+      return e.message.toString();
+    }
+  }
+
+  Future<String> rejectApplication({required String applicationId}) async {
+    try {
+      await _volunteerApplicationsRef.doc(applicationId).delete();
+      return 'Application Deleted';
+    } on FirebaseException catch (err) {
+      return '${err.message}';
+    }
+  }
+
   // accepted application services
   Future<List<VolunteerApplication>> getAcceptedApplication() async {
     try {
@@ -125,23 +125,6 @@ class ApplicationService {
     } on FirebaseException {
       rethrow;
     }
-  }
-
-  final _acceptedApplicationsRef =
-      FirebaseFirestore.instance.collection('accepted_applications');
-
-  Future<String> deleteAcceptedApplication(String volunteerApplicationId,
-      {required String acceptedApplicationId}) async {
-    try {
-      await _acceptedApplicationsRef.doc(acceptedApplicationId).delete();
-      return 'Application Deleted';
-    } on FirebaseException catch (err) {
-      return '${err.message}';
-    }
-  }
-
-  Future<void> deleteApplication(String applicationId) async {
-    await _acceptedApplicationsRef.doc(applicationId).delete();
   }
 
   Future<String> sendNotification(

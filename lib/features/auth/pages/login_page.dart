@@ -8,9 +8,7 @@ import 'package:charity_management_admin/features/auth/pages/register_page.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 class LoginPage extends StatefulWidget {
-
   const LoginPage({
     super.key,
     required void Function() onTap,
@@ -21,16 +19,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final AuthService _authService = AuthService();
   final formKey = GlobalKey<FormState>();
+
   // text controller
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-
   Future<void> _login() async {
-
     await _authService.login(
       emailController.text,
       passwordController.text,
@@ -40,7 +36,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Theme.of(context).colorScheme.background,
       backgroundColor: Theme.of(context).colorScheme.background,
 
       body: Center(

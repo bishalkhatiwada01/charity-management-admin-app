@@ -32,7 +32,7 @@ class VolunteerApplication {
     required this.volunteerApplicationId,
     required this.volunteerContactNum,
     this.volunteerSkills,
-    required this.applicationAcceptedDate,
+    this.applicationAcceptedDate,
     required this.acceptedApplicationId,
     required this.volunteerToken,
   });
@@ -115,6 +115,7 @@ class Post {
   List<String> skills;
   List<String> interests;
   List<String> qualifications;
+  final String targetAmount;
 
   Post({
     required this.postHeadline,
@@ -127,6 +128,7 @@ class Post {
     required this.skills,
     required this.interests,
     required this.qualifications,
+    required this.targetAmount,
   });
 
   Map<String, dynamic> toJson() {
@@ -141,6 +143,7 @@ class Post {
       'skills': skills,
       'interests': interests,
       'qualifications': qualifications,
+      'targetAmount': targetAmount,
     };
   }
 
@@ -156,6 +159,7 @@ class Post {
       skills: List<String>.from(json['skills']),
       interests: List<String>.from(json['interests']),
       qualifications: List<String>.from(json['qualifications']),
+      targetAmount: json['targetAmount'],
     );
   }
 }

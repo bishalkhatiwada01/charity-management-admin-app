@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:charity_management_admin/common/functions/date_formatted.dart';
-import 'package:charity_management_admin/features/volunteer/domain/application_data_provider.dart';
+import 'package:charity_management_admin/features/volunteer/providers/application_data_provider.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/pages/requested_application_detail.dart';
 
 class RequestedApplicationsTab extends ConsumerWidget {
@@ -20,6 +20,7 @@ class RequestedApplicationsTab extends ConsumerWidget {
             itemCount: data.length,
             itemBuilder: (context, index) {
               final application = data[index];
+              print(application.post.postHeadline);
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
                 child: Card(
@@ -60,7 +61,6 @@ class RequestedApplicationsTab extends ConsumerWidget {
                                 color: Colors.white,
                                 fontStyle: FontStyle.italic),
                           ),
-
                           Text(
                             formatDateTime(application.volunteerCreatedAt),
                             style: const TextStyle(color: Colors.white),
@@ -72,7 +72,8 @@ class RequestedApplicationsTab extends ConsumerWidget {
                           MaterialPageRoute(
                             builder: (context) =>
                                 RequestedApplicationDetailPage(
-                                    application: application),
+                              application: application,
+                            ),
                           ),
                         );
                       },
@@ -85,9 +86,7 @@ class RequestedApplicationsTab extends ConsumerWidget {
         },
         error: (error, stack) {
           print(stack);
-          return Center(
-              child: Text(error.toString())
-          );
+          return Center(child: Text(error.toString()));
         },
         loading: () => const Center(
           child: CircularProgressIndicator(),

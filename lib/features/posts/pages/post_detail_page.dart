@@ -1,31 +1,31 @@
 import 'package:charity_management_admin/common/functions/date_formatted.dart';
+import 'package:charity_management_admin/features/donation/data/donation_service.dart';
+import 'package:charity_management_admin/features/donation/model/donation_model.dart';
 import 'package:charity_management_admin/features/posts/domain/data_model.dart';
 import 'package:charity_management_admin/features/posts/data/service/edit_delete_logic.dart';
 import 'package:charity_management_admin/features/posts/pages/edit_post_page.dart';
 import 'package:charity_management_admin/features/posts/pages/full_screen_image.dart';
 import 'package:charity_management_admin/features/posts/widgets/edit_delete_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class PostDetailsPage extends StatefulWidget {
-  final String postId;
+class PostDetailsPage extends ConsumerStatefulWidget {
   final PostDataModel postData;
 
-  const PostDetailsPage({
-    super.key,
-    required this.postId,
-    required this.postData,
-  });
+  const PostDetailsPage({super.key, required this.postData});
 
   @override
-  State<PostDetailsPage> createState() => _PostDetailsPageState();
+  ConsumerState<PostDetailsPage> createState() => _PostDetailsPageState();
 }
 
-class _PostDetailsPageState extends State<PostDetailsPage> {
+class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
   final EditDeleteLogic editDeleteLogic = EditDeleteLogic();
 
   @override
   Widget build(BuildContext context) {
+    final donationData = ref.watch(donationServiceProvider);
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -205,6 +205,78 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                           ),
                         ),
                         const SizedBox(height: 8.0),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Target Amount: ',
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .inversePrimary,
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              TextSpan(
+                                text: widget.postData.targetAmount,
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .inversePrimary,
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 18,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 10.h),
+                        Row(
+                          children: [
+                            Text(
+                              'Recieves: ',
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic,
+                                fontSize: 16.sp,
+                              ),
+                            ),
+                            donationData.when(
+                              data: (data) {
+                                // Calculate the total donation amount for the current post
+                                var totalDonationAmount = 0.0;
+                                for (var donation in data) {
+                                  if (donation.postId ==
+                                      widget.postData.postId) {
+                                    totalDonationAmount +=
+                                        double.parse(donation.amount);
+                                  }
+                                }
+
+                                if (totalDonationAmount >=
+                                    double.parse(
+                                        widget.postData.targetAmount)) {
+                                  EditDeleteLogic.deletePost(
+                                      context, widget.postData.postId);
+                                }
+                                return Text(
+                                  totalDonationAmount.toString(),
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Colors.green,
+                                  ),
+                                );
+                              },
+                              error: (err, stack) => Text('Error: $err'),
+                              loading: () => CircularProgressIndicator(),
+                            ),
+                          ],
+                        ),
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),

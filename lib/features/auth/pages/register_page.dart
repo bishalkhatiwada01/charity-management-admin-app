@@ -19,8 +19,8 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-
   final AuthService _authService = AuthService();
+
   // text controller
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();

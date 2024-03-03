@@ -20,7 +20,7 @@ class _MyPasswordFieldState extends State<MyPasswordField> {
       obscureText: _obscureText,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.sp)),
-        hintText: 'Enter your password',
+        hintText: 'Password',
         suffixIcon: IconButton(
           color: Theme.of(context).colorScheme.inversePrimary,
           icon: Icon(

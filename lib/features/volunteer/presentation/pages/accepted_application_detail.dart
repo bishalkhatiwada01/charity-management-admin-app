@@ -1,10 +1,10 @@
 import 'package:charity_management_admin/features/volunteer/data/application_service.dart';
-import 'package:charity_management_admin/features/volunteer/domain/application_data_provider.dart';
+import 'package:charity_management_admin/features/volunteer/providers/application_data_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:charity_management_admin/features/volunteer/domain/data_model.dart';
+import 'package:charity_management_admin/features/volunteer/domain/volunteer_application_model.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/widgets/my_rich_text.dart';
 
 class AcceptedApplicationDetailPage extends ConsumerStatefulWidget {
@@ -191,8 +191,9 @@ class _RequestedApplicationDetailPageState
                               await _deleteAcceptedApplication(
                                   applicationData.acceptedApplicationId);
                               showSnackBar(context, 'Application deleted');
-                              Navigator.pop(context);
                               ref.refresh(acceptedApplicationProvider);
+
+                              Navigator.pop(context);
                             } catch (e) {
                               showSnackBar(
                                   context, 'Failed to delete application');

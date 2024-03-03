@@ -28,15 +28,6 @@ class NotificationDataSource {
       throw Exception(e.message);
     }
   }
-
-  Future<String> updateNotificationReadStatus(String notificationId) async {
-    try {
-      await _notificationDb.doc(notificationId).update({'isRead': true});
-      return 'Notification read status updated';
-    } on FirebaseException catch (e) {
-      throw Exception(e.message);
-    }
-  }
 }
 
 class NotificationModel {
@@ -45,7 +36,6 @@ class NotificationModel {
   final String body;
   final String createdAt;
   Map<String, dynamic>? notificationData;
-  final String notificationType;
   final String senderId;
   final String receiverId;
   final bool isRead;
@@ -56,7 +46,6 @@ class NotificationModel {
       required this.body,
       required this.createdAt,
       this.notificationData,
-      required this.notificationType,
       required this.senderId,
       required this.receiverId,
       required this.isRead});
@@ -69,11 +58,11 @@ class NotificationModel {
         createdAt: json['createdAt'] as String,
         notificationData:
             json['notificationData'] as Map<String, dynamic>? ?? {},
-        notificationType: json['notificationType'] as String,
         senderId: json['senderId'] as String,
         receiverId: json['receiverId'] as String,
         isRead: json['isRead'] as bool);
   }
+
   Future<void> sendNotification(
       {required String token,
       required String title,
@@ -106,7 +95,6 @@ class NotificationModel {
       'body': body,
       'createdAt': createdAt,
       'notificationData': notificationData,
-      'notificationType': notificationType,
       'senderId': senderId,
       'receiverId': receiverId,
       'isRead': isRead

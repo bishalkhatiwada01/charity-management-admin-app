@@ -30,14 +30,13 @@ class _PostCardState extends ConsumerState<PostCard> {
           MaterialPageRoute(
             builder: (_) => PostDetailsPage(
               postData: widget.postData,
-              postId: widget.postData.postId,
             ),
           ),
         );
       },
       child: Card(
         elevation: 4.0,
-        margin: const EdgeInsets.all(16.0),
+        margin: EdgeInsets.all(12.sp),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
@@ -45,24 +44,23 @@ class _PostCardState extends ConsumerState<PostCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(12.0)),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(12.sp)),
               child: Image.network(
                 widget.postData.postImageUrl,
-                height: 200.0,
+                height: 170.h,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     widget.postData.postHeadline,
-                    style: const TextStyle(
-                      fontSize: 18.0,
+                    style: TextStyle(
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -74,7 +72,7 @@ class _PostCardState extends ConsumerState<PostCard> {
                           widget.postData.postCreatedAt,
                         ),
                         style: TextStyle(
-                            fontSize: 13.sp,
+                            fontSize: 12.sp,
                             color:
                                 Theme.of(context).colorScheme.inversePrimary),
                       ),
@@ -97,40 +95,38 @@ class _PostCardState extends ConsumerState<PostCard> {
                       ),
                     ],
                   ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Target: ${widget.postData.targetAmount}',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                          ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Target: ${widget.postData.targetAmount}',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Theme.of(context).colorScheme.inversePrimary,
                         ),
-                        donationData.when(
-                          data: (data) {
-                            // Calculate the total donation amount for the current post
-                            var totalDonationAmount = 0.0;
-                            for (var donation in data) {
-                              if (donation.postId == widget.postData.postId) {
-                                totalDonationAmount +=
-                                    double.parse(donation.amount);
-                              }
+                      ),
+                      donationData.when(
+                        data: (data) {
+                          // Calculate the total donation amount for the current post
+                          var totalDonationAmount = 0.0;
+                          for (var donation in data) {
+                            if (donation.postId == widget.postData.postId) {
+                              totalDonationAmount +=
+                                  double.parse(donation.amount);
                             }
-                            return Text(
-                              'Recieved: $totalDonationAmount',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.green,
-                              ),
-                            );
-                          },
-                          error: (err, stack) => Text('Error: $err'),
-                          loading: () => CircularProgressIndicator(),
-                        ),
-                      ],
-                    ),
+                          }
+                          return Text(
+                            'Recieved: $totalDonationAmount',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.green,
+                            ),
+                          );
+                        },
+                        error: (err, stack) => Text('Error: $err'),
+                        loading: () => CircularProgressIndicator(),
+                      ),
+                    ],
                   ),
                 ],
               ),
