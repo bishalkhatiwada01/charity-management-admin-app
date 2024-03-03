@@ -15,6 +15,7 @@ class VolunteerApplication {
   final String volunteerApplicationId;
   final String? applicationAcceptedDate;
   final String acceptedApplicationId;
+  String volunteerToken;
 
   VolunteerApplication({
     required this.userId,
@@ -33,6 +34,7 @@ class VolunteerApplication {
     this.volunteerSkills,
     required this.applicationAcceptedDate,
     required this.acceptedApplicationId,
+    required this.volunteerToken,
   });
 
   factory VolunteerApplication.fromJson(Map<String, dynamic> json) {
@@ -53,6 +55,7 @@ class VolunteerApplication {
       volunteerApplicationId: json['volunteerApplicationId'],
       applicationAcceptedDate: json['applicationAcceptedDate'],
       acceptedApplicationId: json['acceptedApplicationId'],
+      volunteerToken: json['userToken'],
     );
   }
 

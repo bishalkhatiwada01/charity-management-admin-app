@@ -35,6 +35,7 @@ class EditPostPageState extends ConsumerState<EditPostPage> {
   late TextEditingController skillsController;
   late TextEditingController interestsController;
   late TextEditingController qualificationsController;
+  late TextEditingController targetAmountController;
 
   late String postImageUrl;
   File? selectedImage;
@@ -57,6 +58,8 @@ class EditPostPageState extends ConsumerState<EditPostPage> {
         TextEditingController(text: widget.postDataModel.interests.join(','));
     qualificationsController = TextEditingController(
         text: widget.postDataModel.qualifications.join(','));
+    targetAmountController =
+        TextEditingController(text: widget.postDataModel.targetAmount);
   }
 
   String? _validateTextField(String? value) {
@@ -150,6 +153,14 @@ class EditPostPageState extends ConsumerState<EditPostPage> {
                   obscureText: false,
                 ),
                 SizedBox(height: 10.h),
+                MyPostTextField(
+                  validator: _validateTextField,
+                  maxlines: 2,
+                  controller: targetAmountController,
+                  labelText: 'Target Amount',
+                  obscureText: false,
+                ),
+                SizedBox(height: 10.h),
 
                 Container(
                   decoration: BoxDecoration(
@@ -216,6 +227,7 @@ class EditPostPageState extends ConsumerState<EditPostPage> {
                       skills: widget.postDataModel.skills,
                       interests: widget.postDataModel.interests,
                       qualifications: widget.postDataModel.qualifications,
+                      targetAmount: widget.postDataModel.targetAmount,
                     );
                     await PostDataSource().updatePost(
                       postDataModel: postDataModel,

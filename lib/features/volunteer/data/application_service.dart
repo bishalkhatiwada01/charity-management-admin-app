@@ -8,6 +8,9 @@ class ApplicationService {
   final _volunteerApplicationsRef =
       FirebaseFirestore.instance.collection('volunteer_applications');
 
+  final _notificationDb =
+      FirebaseFirestore.instance.collection('notifications');
+
 // accept and reject application services
   Future<String> acceptApplication({
     required VolunteerApplication application,
@@ -139,5 +142,25 @@ class ApplicationService {
 
   Future<void> deleteApplication(String applicationId) async {
     await _acceptedApplicationsRef.doc(applicationId).delete();
+  }
+
+  Future<String> sendNotification(
+      {required VolunteerApplication applicationData}) async {
+    try {
+      await _notificationDb.add({
+        'title': "Application Accepted",
+        'body':
+            'Dear Volunteer, your application has been accepted in ${applicationData.post.postHeadline}',
+        'applicationId': applicationData.volunteerApplicationId,
+        'receiverId': applicationData.userId,
+        'createdAt': "${DateTime.now()}",
+        'data': {
+          'application': applicationData.toJson(),
+        },
+      });
+      return 'Notification Sent';
+    } on FirebaseException catch (err) {
+      throw '$err';
+    }
   }
 }

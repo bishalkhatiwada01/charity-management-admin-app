@@ -51,6 +51,7 @@ void main() {
         skills: ['skill1', 'skill2'],
         interests: ['interest1', 'interest2'],
         qualifications: ['qualification1', 'qualification2'],
+        targetAmount: 'targetAmount',
       );
 
       verify(mockCollectionReference.add(any)).called(1);

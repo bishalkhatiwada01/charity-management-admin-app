@@ -19,6 +19,7 @@ class PostDataSource {
     required List<String> skills,
     required List<String> interests,
     required List<String> qualifications,
+    required String targetAmount,
   }) async {
     try {
       await postDb.add({
@@ -31,6 +32,7 @@ class PostDataSource {
         'interests': interests,
         'qualifications': qualifications,
         'postCreatedAt': DateTime.now().toIso8601String(),
+        'targetAmount': targetAmount,
       });
       await sendNotificationToSubscribedUsers(postHeadline, postContent);
 
@@ -107,6 +109,7 @@ class PostDataSource {
         'skills': postDataModel.skills,
         'interests': postDataModel.interests,
         'qualifications': postDataModel.qualifications,
+        'targetAmount': postDataModel.targetAmount,
       });
 
       return 'Post Updated';

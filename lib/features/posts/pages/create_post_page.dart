@@ -37,6 +37,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
       TextEditingController();
   final TextEditingController volunteerIntersController =
       TextEditingController();
+  final TextEditingController targetAmountController = TextEditingController();
 
   String? _validateTextField(String? value) {
     if (value == null || value.isEmpty) {
@@ -73,6 +74,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
         skills: volunteerSkillsController.text.trim().split(','),
         interests: volunteerIntersController.text.trim().split(','),
         qualifications: volunteerQualifiController.text.trim().split(','),
+        targetAmount: targetAmountController.text.trim(),
       );
       ref.refresh(postProvider);
 
@@ -191,6 +193,14 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   obscureText: false,
                 ),
                 SizedBox(height: 10.h),
+                MyPostTextField(
+                  validator: _validateTextField,
+                  maxlines: 1,
+                  controller: targetAmountController,
+                  labelText: 'Target Amount',
+                  obscureText: false,
+                ),
+                SizedBox(height: 10.h),
                 selectedImage != null
                     ? Column(
                         children: [
@@ -224,7 +234,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                         onPressed: () async {
                           final ImagePicker picker = ImagePicker();
                           final postImage = await picker.pickImage(
-                              source: ImageSource.gallery);
+                              source: ImageSource.camera);
 
                           if (postImage != null) {
                             final imageId = DateTime.now().toString();

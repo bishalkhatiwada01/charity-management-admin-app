@@ -54,15 +54,12 @@ class _HomePageState extends ConsumerState<HomePage> {
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              var result = await Navigator.push(
+            onPressed: () {
+              Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const CreatePostPage(),
                   ));
-              if (result == 'postCreated') {
-                setState(() {});
-              }
             },
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             child: Icon(

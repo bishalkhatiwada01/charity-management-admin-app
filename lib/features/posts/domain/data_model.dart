@@ -9,6 +9,7 @@ class PostDataModel {
   List<String> skills;
   List<String> interests;
   List<String> qualifications;
+  String targetAmount;
 
   PostDataModel({
     required this.postId,
@@ -21,6 +22,7 @@ class PostDataModel {
     required this.skills,
     required this.interests,
     required this.qualifications,
+    required this.targetAmount,
   });
 
   factory PostDataModel.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class PostDataModel {
       skills: List<String>.from(json['skills']),
       interests: List<String>.from(json['interests']),
       qualifications: List<String>.from(json['qualifications']),
+      targetAmount: json['targetAmount'],
     );
   }
 
@@ -50,6 +53,7 @@ class PostDataModel {
       'skills': skills,
       'interests': interests,
       'qualifications': qualifications,
+      'targetAmount': targetAmount,
     };
   }
 }

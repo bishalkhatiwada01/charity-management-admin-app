@@ -1,5 +1,5 @@
-import 'package:charity_management_admin/features/auth/data/auth_service.dart';
-import 'package:charity_management_admin/features/donation/pages/donation_history_page.dart';
+import 'package:charity_management_admin/features/donation/presentation/donation_history_page.dart';
+import 'package:charity_management_admin/features/donation/presentation/donationsByCampaigns.dart';
 import 'package:charity_management_admin/features/profile/provider/admin_user_provider.dart';
 import 'package:charity_management_admin/features/profile/views/users_page.dart';
 import 'package:charity_management_admin/features/volunteer/presentation/pages/application_page.dart';
@@ -64,7 +64,7 @@ class MyDrawer extends ConsumerWidget {
           SizedBox(
             height: 10.h,
           ),
-
+          // Home
           Padding(
             padding: EdgeInsets.only(left: 10.w),
             child: ListTile(
@@ -84,7 +84,7 @@ class MyDrawer extends ConsumerWidget {
             ),
           ),
 
-          // profile tile
+          // Donation History
           Padding(
             padding: EdgeInsets.only(left: 10.w),
             child: ListTile(
@@ -101,6 +101,27 @@ class MyDrawer extends ConsumerWidget {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => DonationHistoryPage(),
+                ));
+              },
+            ),
+          ),
+          // profile tile
+          Padding(
+            padding: EdgeInsets.only(left: 10.w),
+            child: ListTile(
+              leading: const Icon(
+                Icons.monetization_on,
+              ),
+              title: Text(
+                'TOTAL DONATION',
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  letterSpacing: 4.w,
+                ),
+              ),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => DonationByCampaigns(),
                 ));
               },
             ),
